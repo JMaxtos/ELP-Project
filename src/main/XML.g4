@@ -1,10 +1,8 @@
-grammar XMLMiguel;
+grammar XML;
 
 
 xql: init atrib+ end+;
-init: LOAD arg TO doc;
-arg: ARGUMENTO;
-doc: STRING;
+init: LOAD ARGUMENTO TO STRING;
 atrib: STRING EQUAL func;
 func: dotX | dotXArr | dotXArrdot | size | map | biggField | xml;
 dotX: STRING DOT STRING;
@@ -13,13 +11,11 @@ dotXArrdot: dotXArr DOT STRING;
 size: dotX HASH;
 map: dotX MAP STRING;
 biggField: map PP;
-
 xml: START body START;
 body: TAG (SPACE)* line+ ENDTAG;
 line:(TAG|encapsule) (VALUE)?(ENDTAG)*;
 encapsule:TAG (NEWLINE TAG)*;
-
-end: SAVE doc TO arg;
+end: SAVE STRING TO ARGUMENTO;
 
 SAVE: 'save';
 LOAD: 'load';
