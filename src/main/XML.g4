@@ -1,36 +1,28 @@
 grammar XML;
 
 
-xql: init atrib+ end+;
-init: LOAD ARGUMENTO TO STRING;
-atrib: STRING EQUAL func;
-func: dotX | dotXArr | dotXArrdot | size | map | biggField | xml;
-dotX: STRING DOT STRING;
-dotXArr: dotX ARR;
-dotXArrdot: dotXArr DOT STRING;
-size: dotX HASH;
-map: dotX MAP STRING;
-biggField: map PP;
-xml: START body START;
+xql: init atrib+ end;
+init: 'load' ARGUMENTO 'to' STRING;
+atrib: STRING '=' function;
+dotX: STRING '.' STRING;
+function: dotX
+        | dotX ARR                 // Acesso a um índice do Array
+        | dotX ARR'.' STRING       // Acesso a um campo do índice do Array
+        | dotX '#'                 // Size
+        | dotX '->' STRING         // Map
+        | dotX '->' STRING '++'    // Incremento
+        | xml                      // ficheiro XML
+        ;
+xml: '***' body '***';
 body: TAG (SPACE)* line+ ENDTAG;
 line:(TAG|encapsule) (VALUE)?(ENDTAG)*;
 encapsule:TAG (NEWLINE TAG)*;
-end: SAVE STRING TO ARGUMENTO;
+end: 'save' STRING 'to' ARGUMENTO;
 
-SAVE: 'save';
-LOAD: 'load';
-TO: 'to';
 ARGUMENTO: '$'[0-9]+;
 STRING: [a-z]+;
-EQUAL: '=';
-DOT: '.';
 ARR: '[' [0-9]+ ']';
-HASH: '#';
-MAP: '->';
-PP: '++';
 VAR: '$' STRING;
-
-START: '***';
 TAG: '<' TAGNAME (ATTRIBUTE)* ('/')?'>' ;
 ENDTAG: '<''/'TAGNAME'>';
 ATTRIBUTE:' '  [a-zA-Z_:][a-zA-Z0-9_.:-]* '='PARAMETER | VAR;
