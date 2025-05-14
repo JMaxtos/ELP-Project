@@ -1,6 +1,5 @@
 grammar XML;
 
-
 xql: init atrib+ end;
 init: 'load' ARGUMENTO 'to' STRING;
 atrib: STRING '=' function;
