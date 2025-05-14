@@ -123,4 +123,25 @@ public class XMLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements XM
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitEncapsule(XMLParser.EncapsuleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTag(XMLParser.TagContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAttribute(XMLParser.AttributeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitEnd(XMLParser.EndContext ctx) { return visitChildren(ctx); }
 }

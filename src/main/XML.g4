@@ -1,7 +1,7 @@
 grammar XML;
 
 
-xql: init atrib+ end+;
+xql: init atrib+ end;
 init: LOAD arg TO doc;
 arg: ARGUMENTO;
 doc: STRING;
@@ -15,10 +15,11 @@ map: dotX MAP STRING;
 biggField: map PP;
 
 xml: START body START;
-body: TAG (SPACE)* line+ ENDTAG;
-line:(TAG|encapsule) (VALUE)?(ENDTAG)*;
-encapsule:TAG (NEWLINE TAG)*;
-
+body: tag (SPACE)* line+ ENDTAG;
+line:(tag|encapsule) (VALUE)?(ENDTAG)*;
+encapsule:tag (NEWLINE tag)*;
+tag: '<' TAGNAME (attribute)* ('/')?'>' ;
+attribute: ATTRIBUTE_NAME '=' PARAMETER;
 end: SAVE doc TO arg;
 
 SAVE: 'save';
@@ -35,7 +36,6 @@ PP: '++';
 VAR: '$' STRING;
 
 START: '***';
-TAG: '<' TAGNAME (ATTRIBUTE)* ('/')?'>' ;
 ENDTAG: '<''/'TAGNAME'>';
 ATTRIBUTE:' ' ATTRIBUTE_NAME '='PARAMETER | VAR;
 TAGNAME:[a-z]+(('-')?[a-z]+)*;

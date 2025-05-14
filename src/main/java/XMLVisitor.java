@@ -105,4 +105,22 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEncapsule(XMLParser.EncapsuleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link XMLParser#tag}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTag(XMLParser.TagContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link XMLParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAttribute(XMLParser.AttributeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link XMLParser#end}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnd(XMLParser.EndContext ctx);
 }
