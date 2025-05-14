@@ -17,15 +17,15 @@ public class XMLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		ARGUMENTO=10, STRING=11, ARR=12, VAR=13, TAG=14, ENDTAG=15, ATTRIBUTE=16, 
-		TAGNAME=17, SPACE=18, VALUE=19, PARAMETER=20, NEWLINE=21;
+		FOREACH=10, ARGUMENTO=11, STRING=12, ARR=13, VAR=14, TAG=15, TAGFOREACH=16, 
+		SELFCLOSINNGTAG_FOREACH=17, SELFCLOSINGTAG=18, ENDTAG=19, ATTRIBUTE=20, 
+		TAGNAME=21, SPACE=22, VALUE=23, PARAMETER=24, NEWLINE=25;
 	public static final int
-		RULE_xql = 0, RULE_init = 1, RULE_atrib = 2, RULE_dotX = 3, RULE_function = 4, 
-		RULE_xml = 5, RULE_body = 6, RULE_line = 7, RULE_encapsule = 8, RULE_end = 9;
+		RULE_xql = 0, RULE_init = 1, RULE_assign = 2, RULE_dotX = 3, RULE_function = 4, 
+		RULE_xml = 5, RULE_line = 6, RULE_end = 7;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"xql", "init", "atrib", "dotX", "function", "xml", "body", "line", "encapsule", 
-			"end"
+			"xql", "init", "assign", "dotX", "function", "xml", "line", "end"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -39,9 +39,10 @@ public class XMLParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, "ARGUMENTO", 
-			"STRING", "ARR", "VAR", "TAG", "ENDTAG", "ATTRIBUTE", "TAGNAME", "SPACE", 
-			"VALUE", "PARAMETER", "NEWLINE"
+			null, null, null, null, null, null, null, null, null, null, "FOREACH", 
+			"ARGUMENTO", "STRING", "ARR", "VAR", "TAG", "TAGFOREACH", "SELFCLOSINNGTAG_FOREACH", 
+			"SELFCLOSINGTAG", "ENDTAG", "ATTRIBUTE", "TAGNAME", "SPACE", "VALUE", 
+			"PARAMETER", "NEWLINE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -103,11 +104,11 @@ public class XMLParser extends Parser {
 		public EndContext end() {
 			return getRuleContext(EndContext.class,0);
 		}
-		public List<AtribContext> atrib() {
-			return getRuleContexts(AtribContext.class);
+		public List<AssignContext> assign() {
+			return getRuleContexts(AssignContext.class);
 		}
-		public AtribContext atrib(int i) {
-			return getRuleContext(AtribContext.class,i);
+		public AssignContext assign(int i) {
+			return getRuleContext(AssignContext.class,i);
 		}
 		public XqlContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -135,23 +136,23 @@ public class XMLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20);
+			setState(16);
 			init();
-			setState(22); 
+			setState(18); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(21);
-				atrib();
+				setState(17);
+				assign();
 				}
 				}
-				setState(24); 
+				setState(20); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==STRING );
-			setState(26);
+			setState(22);
 			end();
 			}
 		}
@@ -195,13 +196,13 @@ public class XMLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(24);
 			match(T__0);
-			setState(29);
+			setState(25);
 			match(ARGUMENTO);
-			setState(30);
+			setState(26);
 			match(T__1);
-			setState(31);
+			setState(27);
 			match(STRING);
 			}
 		}
@@ -217,41 +218,41 @@ public class XMLParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class AtribContext extends ParserRuleContext {
+	public static class AssignContext extends ParserRuleContext {
 		public TerminalNode STRING() { return getToken(XMLParser.STRING, 0); }
 		public FunctionContext function() {
 			return getRuleContext(FunctionContext.class,0);
 		}
-		public AtribContext(ParserRuleContext parent, int invokingState) {
+		public AssignContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_atrib; }
+		@Override public int getRuleIndex() { return RULE_assign; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof XMLListener ) ((XMLListener)listener).enterAtrib(this);
+			if ( listener instanceof XMLListener ) ((XMLListener)listener).enterAssign(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof XMLListener ) ((XMLListener)listener).exitAtrib(this);
+			if ( listener instanceof XMLListener ) ((XMLListener)listener).exitAssign(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof XMLVisitor ) return ((XMLVisitor<? extends T>)visitor).visitAtrib(this);
+			if ( visitor instanceof XMLVisitor ) return ((XMLVisitor<? extends T>)visitor).visitAssign(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final AtribContext atrib() throws RecognitionException {
-		AtribContext _localctx = new AtribContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_atrib);
+	public final AssignContext assign() throws RecognitionException {
+		AssignContext _localctx = new AssignContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_assign);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
+			setState(29);
 			match(STRING);
-			setState(34);
+			setState(30);
 			match(T__2);
-			setState(35);
+			setState(31);
 			function();
 			}
 		}
@@ -297,11 +298,11 @@ public class XMLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37);
+			setState(33);
 			match(STRING);
-			setState(38);
+			setState(34);
 			match(T__3);
-			setState(39);
+			setState(35);
 			match(STRING);
 			}
 		}
@@ -349,49 +350,60 @@ public class XMLParser extends Parser {
 		FunctionContext _localctx = new FunctionContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_function);
 		try {
-			setState(63);
+			setState(59);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(41);
+				setState(37);
 				dotX();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(42);
+				setState(38);
 				dotX();
-				setState(43);
+				setState(39);
 				match(ARR);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(45);
+				setState(41);
 				dotX();
-				setState(46);
+				setState(42);
 				match(ARR);
-				setState(47);
+				setState(43);
 				match(T__3);
-				setState(48);
+				setState(44);
 				match(STRING);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(50);
+				setState(46);
 				dotX();
-				setState(51);
+				setState(47);
 				match(T__4);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
+				{
+				setState(49);
+				dotX();
+				setState(50);
+				match(T__5);
+				setState(51);
+				match(STRING);
+				}
+				break;
+			case 6:
+				enterOuterAlt(_localctx, 6);
 				{
 				setState(53);
 				dotX();
@@ -399,25 +411,14 @@ public class XMLParser extends Parser {
 				match(T__5);
 				setState(55);
 				match(STRING);
-				}
-				break;
-			case 6:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(57);
-				dotX();
-				setState(58);
-				match(T__5);
-				setState(59);
-				match(STRING);
-				setState(60);
+				setState(56);
 				match(T__6);
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(62);
+				setState(58);
 				xml();
 				}
 				break;
@@ -436,8 +437,11 @@ public class XMLParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class XmlContext extends ParserRuleContext {
-		public BodyContext body() {
-			return getRuleContext(BodyContext.class,0);
+		public List<LineContext> line() {
+			return getRuleContexts(LineContext.class);
+		}
+		public LineContext line(int i) {
+			return getRuleContext(LineContext.class,i);
 		}
 		public XmlContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -461,100 +465,28 @@ public class XMLParser extends Parser {
 	public final XmlContext xml() throws RecognitionException {
 		XmlContext _localctx = new XmlContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_xml);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(65);
-			match(T__7);
-			setState(66);
-			body();
-			setState(67);
-			match(T__7);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class BodyContext extends ParserRuleContext {
-		public TerminalNode TAG() { return getToken(XMLParser.TAG, 0); }
-		public TerminalNode ENDTAG() { return getToken(XMLParser.ENDTAG, 0); }
-		public List<TerminalNode> SPACE() { return getTokens(XMLParser.SPACE); }
-		public TerminalNode SPACE(int i) {
-			return getToken(XMLParser.SPACE, i);
-		}
-		public List<LineContext> line() {
-			return getRuleContexts(LineContext.class);
-		}
-		public LineContext line(int i) {
-			return getRuleContext(LineContext.class,i);
-		}
-		public BodyContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_body; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof XMLListener ) ((XMLListener)listener).enterBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof XMLListener ) ((XMLListener)listener).exitBody(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof XMLVisitor ) return ((XMLVisitor<? extends T>)visitor).visitBody(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final BodyContext body() throws RecognitionException {
-		BodyContext _localctx = new BodyContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_body);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(69);
-			match(TAG);
-			setState(73);
+			setState(61);
+			match(T__7);
+			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==SPACE) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 491520L) != 0)) {
 				{
 				{
-				setState(70);
-				match(SPACE);
-				}
-				}
-				setState(75);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(77); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(76);
+				setState(62);
 				line();
 				}
 				}
-				setState(79); 
+				setState(67);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==TAG );
-			setState(81);
-			match(ENDTAG);
+			}
+			setState(68);
+			match(T__7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -571,14 +503,20 @@ public class XMLParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class LineContext extends ParserRuleContext {
 		public TerminalNode TAG() { return getToken(XMLParser.TAG, 0); }
-		public EncapsuleContext encapsule() {
-			return getRuleContext(EncapsuleContext.class,0);
-		}
 		public TerminalNode VALUE() { return getToken(XMLParser.VALUE, 0); }
 		public List<TerminalNode> ENDTAG() { return getTokens(XMLParser.ENDTAG); }
 		public TerminalNode ENDTAG(int i) {
 			return getToken(XMLParser.ENDTAG, i);
 		}
+		public List<LineContext> line() {
+			return getRuleContexts(LineContext.class);
+		}
+		public LineContext line(int i) {
+			return getRuleContext(LineContext.class,i);
+		}
+		public TerminalNode SELFCLOSINGTAG() { return getToken(XMLParser.SELFCLOSINGTAG, 0); }
+		public TerminalNode SELFCLOSINNGTAG_FOREACH() { return getToken(XMLParser.SELFCLOSINNGTAG_FOREACH, 0); }
+		public TerminalNode TAGFOREACH() { return getToken(XMLParser.TAGFOREACH, 0); }
 		public LineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -600,121 +538,97 @@ public class XMLParser extends Parser {
 
 	public final LineContext line() throws RecognitionException {
 		LineContext _localctx = new LineContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_line);
-		int _la;
+		enterRule(_localctx, 12, RULE_line);
 		try {
 			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(85);
+			setState(89);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case TAG:
+				enterOuterAlt(_localctx, 1);
 				{
-				setState(83);
+				{
+				setState(70);
 				match(TAG);
+				setState(78);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case VALUE:
+					{
+					setState(71);
+					match(VALUE);
+					}
+					break;
+				case T__7:
+				case TAG:
+				case TAGFOREACH:
+				case SELFCLOSINNGTAG_FOREACH:
+				case SELFCLOSINGTAG:
+				case ENDTAG:
+					{
+					setState(75);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+					while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+						if ( _alt==1 ) {
+							{
+							{
+							setState(72);
+							line();
+							}
+							} 
+						}
+						setState(77);
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(83);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(80);
+						match(ENDTAG);
+						}
+						} 
+					}
+					setState(85);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				}
+				}
 				}
 				break;
-			case 2:
+			case SELFCLOSINGTAG:
+				enterOuterAlt(_localctx, 2);
 				{
-				setState(84);
-				encapsule();
+				setState(86);
+				match(SELFCLOSINGTAG);
 				}
 				break;
-			}
-			setState(88);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==VALUE) {
+			case SELFCLOSINNGTAG_FOREACH:
+				enterOuterAlt(_localctx, 3);
 				{
 				setState(87);
-				match(VALUE);
+				match(SELFCLOSINNGTAG_FOREACH);
 				}
-			}
-
-			setState(93);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(90);
-					match(ENDTAG);
-					}
-					} 
-				}
-				setState(95);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class EncapsuleContext extends ParserRuleContext {
-		public List<TerminalNode> TAG() { return getTokens(XMLParser.TAG); }
-		public TerminalNode TAG(int i) {
-			return getToken(XMLParser.TAG, i);
-		}
-		public List<TerminalNode> NEWLINE() { return getTokens(XMLParser.NEWLINE); }
-		public TerminalNode NEWLINE(int i) {
-			return getToken(XMLParser.NEWLINE, i);
-		}
-		public EncapsuleContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_encapsule; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof XMLListener ) ((XMLListener)listener).enterEncapsule(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof XMLListener ) ((XMLListener)listener).exitEncapsule(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof XMLVisitor ) return ((XMLVisitor<? extends T>)visitor).visitEncapsule(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final EncapsuleContext encapsule() throws RecognitionException {
-		EncapsuleContext _localctx = new EncapsuleContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_encapsule);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(96);
-			match(TAG);
-			setState(101);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==NEWLINE) {
+				break;
+			case TAGFOREACH:
+				enterOuterAlt(_localctx, 4);
 				{
-				{
-				setState(97);
-				match(NEWLINE);
-				setState(98);
-				match(TAG);
+				setState(88);
+				match(TAGFOREACH);
 				}
-				}
-				setState(103);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -753,17 +667,17 @@ public class XMLParser extends Parser {
 
 	public final EndContext end() throws RecognitionException {
 		EndContext _localctx = new EndContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_end);
+		enterRule(_localctx, 14, RULE_end);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
+			setState(91);
 			match(T__8);
-			setState(105);
+			setState(92);
 			match(STRING);
-			setState(106);
+			setState(93);
 			match(T__1);
-			setState(107);
+			setState(94);
 			match(ARGUMENTO);
 			}
 		}
@@ -779,68 +693,63 @@ public class XMLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0015n\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0019a\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
-		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
-		"\b\u0007\b\u0002\t\u0007\t\u0001\u0000\u0001\u0000\u0004\u0000\u0017\b"+
-		"\u0000\u000b\u0000\f\u0000\u0018\u0001\u0000\u0001\u0000\u0001\u0001\u0001"+
-		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004@\b\u0004\u0001"+
-		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0005"+
-		"\u0006H\b\u0006\n\u0006\f\u0006K\t\u0006\u0001\u0006\u0004\u0006N\b\u0006"+
-		"\u000b\u0006\f\u0006O\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007"+
-		"\u0003\u0007V\b\u0007\u0001\u0007\u0003\u0007Y\b\u0007\u0001\u0007\u0005"+
-		"\u0007\\\b\u0007\n\u0007\f\u0007_\t\u0007\u0001\b\u0001\b\u0001\b\u0005"+
-		"\bd\b\b\n\b\f\bg\t\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0000"+
-		"\u0000\n\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0000\u0000p"+
-		"\u0000\u0014\u0001\u0000\u0000\u0000\u0002\u001c\u0001\u0000\u0000\u0000"+
-		"\u0004!\u0001\u0000\u0000\u0000\u0006%\u0001\u0000\u0000\u0000\b?\u0001"+
-		"\u0000\u0000\u0000\nA\u0001\u0000\u0000\u0000\fE\u0001\u0000\u0000\u0000"+
-		"\u000eU\u0001\u0000\u0000\u0000\u0010`\u0001\u0000\u0000\u0000\u0012h"+
-		"\u0001\u0000\u0000\u0000\u0014\u0016\u0003\u0002\u0001\u0000\u0015\u0017"+
-		"\u0003\u0004\u0002\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0017\u0018"+
-		"\u0001\u0000\u0000\u0000\u0018\u0016\u0001\u0000\u0000\u0000\u0018\u0019"+
-		"\u0001\u0000\u0000\u0000\u0019\u001a\u0001\u0000\u0000\u0000\u001a\u001b"+
-		"\u0003\u0012\t\u0000\u001b\u0001\u0001\u0000\u0000\u0000\u001c\u001d\u0005"+
-		"\u0001\u0000\u0000\u001d\u001e\u0005\n\u0000\u0000\u001e\u001f\u0005\u0002"+
-		"\u0000\u0000\u001f \u0005\u000b\u0000\u0000 \u0003\u0001\u0000\u0000\u0000"+
-		"!\"\u0005\u000b\u0000\u0000\"#\u0005\u0003\u0000\u0000#$\u0003\b\u0004"+
-		"\u0000$\u0005\u0001\u0000\u0000\u0000%&\u0005\u000b\u0000\u0000&\'\u0005"+
-		"\u0004\u0000\u0000\'(\u0005\u000b\u0000\u0000(\u0007\u0001\u0000\u0000"+
-		"\u0000)@\u0003\u0006\u0003\u0000*+\u0003\u0006\u0003\u0000+,\u0005\f\u0000"+
-		"\u0000,@\u0001\u0000\u0000\u0000-.\u0003\u0006\u0003\u0000./\u0005\f\u0000"+
-		"\u0000/0\u0005\u0004\u0000\u000001\u0005\u000b\u0000\u00001@\u0001\u0000"+
-		"\u0000\u000023\u0003\u0006\u0003\u000034\u0005\u0005\u0000\u00004@\u0001"+
-		"\u0000\u0000\u000056\u0003\u0006\u0003\u000067\u0005\u0006\u0000\u0000"+
-		"78\u0005\u000b\u0000\u00008@\u0001\u0000\u0000\u00009:\u0003\u0006\u0003"+
-		"\u0000:;\u0005\u0006\u0000\u0000;<\u0005\u000b\u0000\u0000<=\u0005\u0007"+
-		"\u0000\u0000=@\u0001\u0000\u0000\u0000>@\u0003\n\u0005\u0000?)\u0001\u0000"+
-		"\u0000\u0000?*\u0001\u0000\u0000\u0000?-\u0001\u0000\u0000\u0000?2\u0001"+
-		"\u0000\u0000\u0000?5\u0001\u0000\u0000\u0000?9\u0001\u0000\u0000\u0000"+
-		"?>\u0001\u0000\u0000\u0000@\t\u0001\u0000\u0000\u0000AB\u0005\b\u0000"+
-		"\u0000BC\u0003\f\u0006\u0000CD\u0005\b\u0000\u0000D\u000b\u0001\u0000"+
-		"\u0000\u0000EI\u0005\u000e\u0000\u0000FH\u0005\u0012\u0000\u0000GF\u0001"+
-		"\u0000\u0000\u0000HK\u0001\u0000\u0000\u0000IG\u0001\u0000\u0000\u0000"+
-		"IJ\u0001\u0000\u0000\u0000JM\u0001\u0000\u0000\u0000KI\u0001\u0000\u0000"+
-		"\u0000LN\u0003\u000e\u0007\u0000ML\u0001\u0000\u0000\u0000NO\u0001\u0000"+
-		"\u0000\u0000OM\u0001\u0000\u0000\u0000OP\u0001\u0000\u0000\u0000PQ\u0001"+
-		"\u0000\u0000\u0000QR\u0005\u000f\u0000\u0000R\r\u0001\u0000\u0000\u0000"+
-		"SV\u0005\u000e\u0000\u0000TV\u0003\u0010\b\u0000US\u0001\u0000\u0000\u0000"+
-		"UT\u0001\u0000\u0000\u0000VX\u0001\u0000\u0000\u0000WY\u0005\u0013\u0000"+
-		"\u0000XW\u0001\u0000\u0000\u0000XY\u0001\u0000\u0000\u0000Y]\u0001\u0000"+
-		"\u0000\u0000Z\\\u0005\u000f\u0000\u0000[Z\u0001\u0000\u0000\u0000\\_\u0001"+
-		"\u0000\u0000\u0000][\u0001\u0000\u0000\u0000]^\u0001\u0000\u0000\u0000"+
-		"^\u000f\u0001\u0000\u0000\u0000_]\u0001\u0000\u0000\u0000`e\u0005\u000e"+
-		"\u0000\u0000ab\u0005\u0015\u0000\u0000bd\u0005\u000e\u0000\u0000ca\u0001"+
-		"\u0000\u0000\u0000dg\u0001\u0000\u0000\u0000ec\u0001\u0000\u0000\u0000"+
-		"ef\u0001\u0000\u0000\u0000f\u0011\u0001\u0000\u0000\u0000ge\u0001\u0000"+
-		"\u0000\u0000hi\u0005\t\u0000\u0000ij\u0005\u000b\u0000\u0000jk\u0005\u0002"+
-		"\u0000\u0000kl\u0005\n\u0000\u0000l\u0013\u0001\u0000\u0000\u0000\b\u0018"+
-		"?IOUX]e";
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0001"+
+		"\u0000\u0001\u0000\u0004\u0000\u0013\b\u0000\u000b\u0000\f\u0000\u0014"+
+		"\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0003\u0004<\b\u0004\u0001\u0005\u0001\u0005\u0005\u0005"+
+		"@\b\u0005\n\u0005\f\u0005C\t\u0005\u0001\u0005\u0001\u0005\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0005\u0006J\b\u0006\n\u0006\f\u0006M\t\u0006"+
+		"\u0003\u0006O\b\u0006\u0001\u0006\u0005\u0006R\b\u0006\n\u0006\f\u0006"+
+		"U\t\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0003\u0006Z\b\u0006\u0001"+
+		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0000"+
+		"\u0000\b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0000\u0000f\u0000\u0010"+
+		"\u0001\u0000\u0000\u0000\u0002\u0018\u0001\u0000\u0000\u0000\u0004\u001d"+
+		"\u0001\u0000\u0000\u0000\u0006!\u0001\u0000\u0000\u0000\b;\u0001\u0000"+
+		"\u0000\u0000\n=\u0001\u0000\u0000\u0000\fY\u0001\u0000\u0000\u0000\u000e"+
+		"[\u0001\u0000\u0000\u0000\u0010\u0012\u0003\u0002\u0001\u0000\u0011\u0013"+
+		"\u0003\u0004\u0002\u0000\u0012\u0011\u0001\u0000\u0000\u0000\u0013\u0014"+
+		"\u0001\u0000\u0000\u0000\u0014\u0012\u0001\u0000\u0000\u0000\u0014\u0015"+
+		"\u0001\u0000\u0000\u0000\u0015\u0016\u0001\u0000\u0000\u0000\u0016\u0017"+
+		"\u0003\u000e\u0007\u0000\u0017\u0001\u0001\u0000\u0000\u0000\u0018\u0019"+
+		"\u0005\u0001\u0000\u0000\u0019\u001a\u0005\u000b\u0000\u0000\u001a\u001b"+
+		"\u0005\u0002\u0000\u0000\u001b\u001c\u0005\f\u0000\u0000\u001c\u0003\u0001"+
+		"\u0000\u0000\u0000\u001d\u001e\u0005\f\u0000\u0000\u001e\u001f\u0005\u0003"+
+		"\u0000\u0000\u001f \u0003\b\u0004\u0000 \u0005\u0001\u0000\u0000\u0000"+
+		"!\"\u0005\f\u0000\u0000\"#\u0005\u0004\u0000\u0000#$\u0005\f\u0000\u0000"+
+		"$\u0007\u0001\u0000\u0000\u0000%<\u0003\u0006\u0003\u0000&\'\u0003\u0006"+
+		"\u0003\u0000\'(\u0005\r\u0000\u0000(<\u0001\u0000\u0000\u0000)*\u0003"+
+		"\u0006\u0003\u0000*+\u0005\r\u0000\u0000+,\u0005\u0004\u0000\u0000,-\u0005"+
+		"\f\u0000\u0000-<\u0001\u0000\u0000\u0000./\u0003\u0006\u0003\u0000/0\u0005"+
+		"\u0005\u0000\u00000<\u0001\u0000\u0000\u000012\u0003\u0006\u0003\u0000"+
+		"23\u0005\u0006\u0000\u000034\u0005\f\u0000\u00004<\u0001\u0000\u0000\u0000"+
+		"56\u0003\u0006\u0003\u000067\u0005\u0006\u0000\u000078\u0005\f\u0000\u0000"+
+		"89\u0005\u0007\u0000\u00009<\u0001\u0000\u0000\u0000:<\u0003\n\u0005\u0000"+
+		";%\u0001\u0000\u0000\u0000;&\u0001\u0000\u0000\u0000;)\u0001\u0000\u0000"+
+		"\u0000;.\u0001\u0000\u0000\u0000;1\u0001\u0000\u0000\u0000;5\u0001\u0000"+
+		"\u0000\u0000;:\u0001\u0000\u0000\u0000<\t\u0001\u0000\u0000\u0000=A\u0005"+
+		"\b\u0000\u0000>@\u0003\f\u0006\u0000?>\u0001\u0000\u0000\u0000@C\u0001"+
+		"\u0000\u0000\u0000A?\u0001\u0000\u0000\u0000AB\u0001\u0000\u0000\u0000"+
+		"BD\u0001\u0000\u0000\u0000CA\u0001\u0000\u0000\u0000DE\u0005\b\u0000\u0000"+
+		"E\u000b\u0001\u0000\u0000\u0000FN\u0005\u000f\u0000\u0000GO\u0005\u0017"+
+		"\u0000\u0000HJ\u0003\f\u0006\u0000IH\u0001\u0000\u0000\u0000JM\u0001\u0000"+
+		"\u0000\u0000KI\u0001\u0000\u0000\u0000KL\u0001\u0000\u0000\u0000LO\u0001"+
+		"\u0000\u0000\u0000MK\u0001\u0000\u0000\u0000NG\u0001\u0000\u0000\u0000"+
+		"NK\u0001\u0000\u0000\u0000OS\u0001\u0000\u0000\u0000PR\u0005\u0013\u0000"+
+		"\u0000QP\u0001\u0000\u0000\u0000RU\u0001\u0000\u0000\u0000SQ\u0001\u0000"+
+		"\u0000\u0000ST\u0001\u0000\u0000\u0000TZ\u0001\u0000\u0000\u0000US\u0001"+
+		"\u0000\u0000\u0000VZ\u0005\u0012\u0000\u0000WZ\u0005\u0011\u0000\u0000"+
+		"XZ\u0005\u0010\u0000\u0000YF\u0001\u0000\u0000\u0000YV\u0001\u0000\u0000"+
+		"\u0000YW\u0001\u0000\u0000\u0000YX\u0001\u0000\u0000\u0000Z\r\u0001\u0000"+
+		"\u0000\u0000[\\\u0005\t\u0000\u0000\\]\u0005\f\u0000\u0000]^\u0005\u0002"+
+		"\u0000\u0000^_\u0005\u000b\u0000\u0000_\u000f\u0001\u0000\u0000\u0000"+
+		"\u0007\u0014;AKNSY";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

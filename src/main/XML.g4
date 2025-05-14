@@ -1,9 +1,9 @@
 grammar XML;
 
 
-xql: init atrib+ end;
+xql: init assign+ end;
 init: 'load' ARGUMENTO 'to' STRING;
-atrib: STRING '=' function;
+assign: STRING '=' function;
 dotX: STRING '.' STRING;
 function: dotX
         | dotX ARR                 // Acesso a um índice do Array
@@ -13,17 +13,19 @@ function: dotX
         | dotX '->' STRING '++'    // Incremento
         | xml                      // ficheiro XML
         ;
-xml: '***' body '***';
-body: TAG (SPACE)* line+ ENDTAG;
-line:(TAG|encapsule) (VALUE)?(ENDTAG)*;
-encapsule:TAG (NEWLINE TAG)*;
+xml: '***' line* '***';
+line:(TAG (VALUE|line*)(ENDTAG)* )| SELFCLOSINGTAG | SELFCLOSINNGTAG_FOREACH |TAGFOREACH;
 end: 'save' STRING 'to' ARGUMENTO;
 
+FOREACH: STRING'$'STRING;
 ARGUMENTO: '$'[0-9]+;
 STRING: [a-z]+;
 ARR: '[' [0-9]+ ']';
 VAR: '$' STRING;
-TAG: '<' TAGNAME (ATTRIBUTE)* ('/')?'>' ;
+TAG: '<' (TAGNAME (ATTRIBUTE)*)'>' ;
+TAGFOREACH: '<' (FOREACH (ATTRIBUTE)*)'>' ;
+SELFCLOSINNGTAG_FOREACH: '<' FOREACH (ATTRIBUTE)*'/''>';
+SELFCLOSINGTAG: '<' TAGNAME (ATTRIBUTE)*'/''>';
 ENDTAG: '<''/'TAGNAME'>';
 ATTRIBUTE:' '  [a-zA-Z_:][a-zA-Z0-9_.:-]* '='PARAMETER | VAR;
 TAGNAME:[a-z]+(('-')?[a-z]+)*;

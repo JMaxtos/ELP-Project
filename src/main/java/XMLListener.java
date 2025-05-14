@@ -27,15 +27,15 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitInit(XMLParser.InitContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XMLParser#atrib}.
+	 * Enter a parse tree produced by {@link XMLParser#assign}.
 	 * @param ctx the parse tree
 	 */
-	void enterAtrib(XMLParser.AtribContext ctx);
+	void enterAssign(XMLParser.AssignContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link XMLParser#atrib}.
+	 * Exit a parse tree produced by {@link XMLParser#assign}.
 	 * @param ctx the parse tree
 	 */
-	void exitAtrib(XMLParser.AtribContext ctx);
+	void exitAssign(XMLParser.AssignContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link XMLParser#dotX}.
 	 * @param ctx the parse tree
@@ -67,16 +67,6 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitXml(XMLParser.XmlContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XMLParser#body}.
-	 * @param ctx the parse tree
-	 */
-	void enterBody(XMLParser.BodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#body}.
-	 * @param ctx the parse tree
-	 */
-	void exitBody(XMLParser.BodyContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link XMLParser#line}.
 	 * @param ctx the parse tree
 	 */
@@ -86,16 +76,6 @@ public interface XMLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLine(XMLParser.LineContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#encapsule}.
-	 * @param ctx the parse tree
-	 */
-	void enterEncapsule(XMLParser.EncapsuleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#encapsule}.
-	 * @param ctx the parse tree
-	 */
-	void exitEncapsule(XMLParser.EncapsuleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link XMLParser#end}.
 	 * @param ctx the parse tree

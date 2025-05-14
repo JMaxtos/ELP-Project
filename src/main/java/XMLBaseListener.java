@@ -40,13 +40,13 @@ public class XMLBaseListener implements XMLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAtrib(XMLParser.AtribContext ctx) { }
+	@Override public void enterAssign(XMLParser.AssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAtrib(XMLParser.AtribContext ctx) { }
+	@Override public void exitAssign(XMLParser.AssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -88,18 +88,6 @@ public class XMLBaseListener implements XMLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBody(XMLParser.BodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBody(XMLParser.BodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLine(XMLParser.LineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -107,18 +95,6 @@ public class XMLBaseListener implements XMLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLine(XMLParser.LineContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEncapsule(XMLParser.EncapsuleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEncapsule(XMLParser.EncapsuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

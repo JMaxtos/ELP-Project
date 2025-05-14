@@ -22,11 +22,11 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInit(XMLParser.InitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XMLParser#atrib}.
+	 * Visit a parse tree produced by {@link XMLParser#assign}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAtrib(XMLParser.AtribContext ctx);
+	T visitAssign(XMLParser.AssignContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link XMLParser#dotX}.
 	 * @param ctx the parse tree
@@ -46,23 +46,11 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitXml(XMLParser.XmlContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XMLParser#body}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBody(XMLParser.BodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link XMLParser#line}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLine(XMLParser.LineContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#encapsule}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEncapsule(XMLParser.EncapsuleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link XMLParser#end}.
 	 * @param ctx the parse tree
