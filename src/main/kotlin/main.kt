@@ -1,17 +1,21 @@
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 
-
 fun main(){
-    val input = CharStreams.fromFileName("exemplo.xql")
 
-    val lexer = XMLLexer(input)
+    val lexer=XMLLexer(CharStreams.fromFileName("exemplo.xql"))
     val parser=XMLParser(CommonTokenStream(lexer))
+    val parserTree=parser.xql()
+    val ast=parserTree.toAst()
 
-    val tree=parser.xql()
+    /*
+    val init=Init("$1", "d.csv")
+    val assign=Assign("x", DotX("a","b"))
+    val end=End("doc2", "$2")
 
-    val ast=tree.toAst()
+    val xql=XQL(init, listOf(assign), end)
+*/
 
-    println(ast)
-
+    println(ast.prettyPrint())
 }
+

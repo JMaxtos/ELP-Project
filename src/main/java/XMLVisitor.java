@@ -22,29 +22,11 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInit(XMLParser.InitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XMLParser#arg}.
+	 * Visit a parse tree produced by {@link XMLParser#assign}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArg(XMLParser.ArgContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#doc}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDoc(XMLParser.DocContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#atrib}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAtrib(XMLParser.AtribContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#func}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunc(XMLParser.FuncContext ctx);
+	T visitAssign(XMLParser.AssignContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link XMLParser#dotX}.
 	 * @param ctx the parse tree
@@ -52,35 +34,11 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDotX(XMLParser.DotXContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XMLParser#dotXArr}.
+	 * Visit a parse tree produced by {@link XMLParser#function}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDotXArr(XMLParser.DotXArrContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#dotXArrdot}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDotXArrdot(XMLParser.DotXArrdotContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#size}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSize(XMLParser.SizeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#map}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMap(XMLParser.MapContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#biggField}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBiggField(XMLParser.BiggFieldContext ctx);
+	T visitFunction(XMLParser.FunctionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link XMLParser#xml}.
 	 * @param ctx the parse tree
@@ -88,35 +46,11 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitXml(XMLParser.XmlContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XMLParser#body}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBody(XMLParser.BodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link XMLParser#line}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLine(XMLParser.LineContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#encapsule}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEncapsule(XMLParser.EncapsuleContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#tag}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTag(XMLParser.TagContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link XMLParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAttribute(XMLParser.AttributeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link XMLParser#end}.
 	 * @param ctx the parse tree

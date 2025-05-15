@@ -1,13 +1,13 @@
-import XMLParser.AtribContext
+
 import XMLParser.EndContext
 import XMLParser.InitContext
 
 import javax.print.Doc
 
-
+/*
 sealed class Node
 
-data class XQL(val init: Init, val atrib: List<Atrib>, val end: End) : Node()
+data class XQLL(val init: Init, val atrib: List<Atrib>, val end: End) : Node()
 
 data class Init(val arg: String, val doc: String) : Node()
 data class End(val doc: String, val arg: String) : Node()
@@ -142,3 +142,5 @@ fun XMLParser.EncapsuleContext.toAst(): Encapsule{
     val alltags= listOf(this.tag(0))+this.tag().drop(1)
     return Encapsule(alltags.map{it.toAst()})
 }
+
+ */

@@ -1,46 +1,37 @@
 grammar XML;
 
 
-xql: init atrib+ end;
-init: LOAD arg TO doc;
-arg: ARGUMENTO;
-doc: STRING;
-atrib: STRING EQUAL func;
-func: dotX | dotXArr | dotXArrdot | size | map | biggField | xml;
-dotX: STRING DOT STRING;
-dotXArr: dotX ARR;
-dotXArrdot: dotXArr DOT STRING;
-size: dotX HASH;
-map: dotX MAP STRING;
-biggField: map PP;
+xql: init assign+ end;
+init: 'load' ARGUMENTO 'to' STRING;
+assign: STRING '=' function;
+dotX: STRING '.' STRING;
+function: dotX
+        | dotX ARR
+        | dotX ARR '.' STRING
+        | dotX '#'
+        | dotX '->' STRING
+        | dotX '->' STRING '++'
+        | xml
+        ;
 
-xml: START body START;
-body: tag (SPACE)* line+ ENDTAG;
-line:(tag|encapsule) (VALUE)?(ENDTAG)*;
-encapsule:tag (NEWLINE tag)*;
-tag: '<' TAGNAME (attribute)* ('/')?'>' ;
-attribute: ATTRIBUTE_NAME '=' PARAMETER;
-end: SAVE doc TO arg;
+xml: '***' line* '***';
+line:(TAG (VALUE|line*)(ENDTAG)* )| SELFCLOSINGTAG | SELFCLOSINNGTAG_FOREACH |TAGFOREACH;
+end: 'save' STRING 'to' ARGUMENTO;
 
-SAVE: 'save';
-LOAD: 'load';
-TO: 'to';
+FOREACH: STRING'$'STRING;
 ARGUMENTO: '$'[0-9]+;
 STRING: [a-z]+;
-EQUAL: '=';
-DOT: '.';
 ARR: '[' [0-9]+ ']';
-HASH: '#';
-MAP: '->';
-PP: '++';
 VAR: '$' STRING;
-
-START: '***';
+TAG: '<' (TAGNAME (ATTRIBUTE)*)'>' ;
+TAGFOREACH: '<' (FOREACH (ATTRIBUTE)*)'>' ;
+SELFCLOSINNGTAG_FOREACH: '<' FOREACH (ATTRIBUTE)*'/''>';
+SELFCLOSINGTAG: '<' TAGNAME (ATTRIBUTE)*'/''>';
 ENDTAG: '<''/'TAGNAME'>';
-ATTRIBUTE:' ' ATTRIBUTE_NAME '='PARAMETER | VAR;
+ATTRIBUTE:' '  [a-zA-Z_:][a-zA-Z0-9_.:-]* '='PARAMETER | VAR;
 TAGNAME:[a-z]+(('-')?[a-z]+)*;
-ATTRIBUTE_NAME : [a-zA-Z_:][a-zA-Z0-9_.:-]* ;
 SPACE: (' ')+->skip;
 VALUE:[0-9]+;
 PARAMETER: '"' (~["\r\n])* '"' ;
 NEWLINE:('\n'|'\r\n'|'\t')->skip;
+

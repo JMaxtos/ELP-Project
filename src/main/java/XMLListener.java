@@ -27,45 +27,15 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitInit(XMLParser.InitContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XMLParser#arg}.
+	 * Enter a parse tree produced by {@link XMLParser#assign}.
 	 * @param ctx the parse tree
 	 */
-	void enterArg(XMLParser.ArgContext ctx);
+	void enterAssign(XMLParser.AssignContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link XMLParser#arg}.
+	 * Exit a parse tree produced by {@link XMLParser#assign}.
 	 * @param ctx the parse tree
 	 */
-	void exitArg(XMLParser.ArgContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#doc}.
-	 * @param ctx the parse tree
-	 */
-	void enterDoc(XMLParser.DocContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#doc}.
-	 * @param ctx the parse tree
-	 */
-	void exitDoc(XMLParser.DocContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#atrib}.
-	 * @param ctx the parse tree
-	 */
-	void enterAtrib(XMLParser.AtribContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#atrib}.
-	 * @param ctx the parse tree
-	 */
-	void exitAtrib(XMLParser.AtribContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#func}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunc(XMLParser.FuncContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#func}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunc(XMLParser.FuncContext ctx);
+	void exitAssign(XMLParser.AssignContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link XMLParser#dotX}.
 	 * @param ctx the parse tree
@@ -77,55 +47,15 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitDotX(XMLParser.DotXContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XMLParser#dotXArr}.
+	 * Enter a parse tree produced by {@link XMLParser#function}.
 	 * @param ctx the parse tree
 	 */
-	void enterDotXArr(XMLParser.DotXArrContext ctx);
+	void enterFunction(XMLParser.FunctionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link XMLParser#dotXArr}.
+	 * Exit a parse tree produced by {@link XMLParser#function}.
 	 * @param ctx the parse tree
 	 */
-	void exitDotXArr(XMLParser.DotXArrContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#dotXArrdot}.
-	 * @param ctx the parse tree
-	 */
-	void enterDotXArrdot(XMLParser.DotXArrdotContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#dotXArrdot}.
-	 * @param ctx the parse tree
-	 */
-	void exitDotXArrdot(XMLParser.DotXArrdotContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#size}.
-	 * @param ctx the parse tree
-	 */
-	void enterSize(XMLParser.SizeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#size}.
-	 * @param ctx the parse tree
-	 */
-	void exitSize(XMLParser.SizeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#map}.
-	 * @param ctx the parse tree
-	 */
-	void enterMap(XMLParser.MapContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#map}.
-	 * @param ctx the parse tree
-	 */
-	void exitMap(XMLParser.MapContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#biggField}.
-	 * @param ctx the parse tree
-	 */
-	void enterBiggField(XMLParser.BiggFieldContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#biggField}.
-	 * @param ctx the parse tree
-	 */
-	void exitBiggField(XMLParser.BiggFieldContext ctx);
+	void exitFunction(XMLParser.FunctionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link XMLParser#xml}.
 	 * @param ctx the parse tree
@@ -137,16 +67,6 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitXml(XMLParser.XmlContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XMLParser#body}.
-	 * @param ctx the parse tree
-	 */
-	void enterBody(XMLParser.BodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#body}.
-	 * @param ctx the parse tree
-	 */
-	void exitBody(XMLParser.BodyContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link XMLParser#line}.
 	 * @param ctx the parse tree
 	 */
@@ -156,36 +76,6 @@ public interface XMLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLine(XMLParser.LineContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#encapsule}.
-	 * @param ctx the parse tree
-	 */
-	void enterEncapsule(XMLParser.EncapsuleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#encapsule}.
-	 * @param ctx the parse tree
-	 */
-	void exitEncapsule(XMLParser.EncapsuleContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#tag}.
-	 * @param ctx the parse tree
-	 */
-	void enterTag(XMLParser.TagContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#tag}.
-	 * @param ctx the parse tree
-	 */
-	void exitTag(XMLParser.TagContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link XMLParser#attribute}.
-	 * @param ctx the parse tree
-	 */
-	void enterAttribute(XMLParser.AttributeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XMLParser#attribute}.
-	 * @param ctx the parse tree
-	 */
-	void exitAttribute(XMLParser.AttributeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link XMLParser#end}.
 	 * @param ctx the parse tree
