@@ -18,7 +18,7 @@ public class XMLLexer extends Lexer {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		FOREACH=10, ARGUMENTO=11, STRING=12, ARR=13, VAR=14, TAG=15, TAGFOREACH=16, 
-		SELFCLOSINNGTAG_FOREACH=17, SELFCLOSINGTAG=18, ENDTAG=19, ATTRIBUTE=20, 
+		SELFCLOSINGTAG_FOREACH=17, SELFCLOSINGTAG=18, ENDTAG=19, ATTRIBUTE=20, 
 		TAGNAME=21, SPACE=22, VALUE=23, PARAMETER=24, NEWLINE=25;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -32,7 +32,7 @@ public class XMLLexer extends Lexer {
 		return new String[] {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 			"FOREACH", "ARGUMENTO", "STRING", "ARR", "VAR", "TAG", "TAGFOREACH", 
-			"SELFCLOSINNGTAG_FOREACH", "SELFCLOSINGTAG", "ENDTAG", "ATTRIBUTE", "TAGNAME", 
+			"SELFCLOSINGTAG_FOREACH", "SELFCLOSINGTAG", "ENDTAG", "ATTRIBUTE", "TAGNAME", 
 			"SPACE", "VALUE", "PARAMETER", "NEWLINE"
 		};
 	}
@@ -48,7 +48,7 @@ public class XMLLexer extends Lexer {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, "FOREACH", 
-			"ARGUMENTO", "STRING", "ARR", "VAR", "TAG", "TAGFOREACH", "SELFCLOSINNGTAG_FOREACH", 
+			"ARGUMENTO", "STRING", "ARR", "VAR", "TAG", "TAGFOREACH", "SELFCLOSINGTAG_FOREACH", 
 			"SELFCLOSINGTAG", "ENDTAG", "ATTRIBUTE", "TAGNAME", "SPACE", "VALUE", 
 			"PARAMETER", "NEWLINE"
 		};
