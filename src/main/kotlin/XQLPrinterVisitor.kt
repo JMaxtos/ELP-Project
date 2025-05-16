@@ -6,7 +6,7 @@ class XQLPrinterVisitor: XQLVisitor {
     }
 
     override fun visitInit(node: Init) {
-        println("init ${node.argument} to ${node.doc}")
+        println("load ${node.argument} to ${node.doc}")
     }
 
     override fun visitSave(node: Save){
@@ -27,11 +27,11 @@ class XQLPrinterVisitor: XQLVisitor {
     }
 
     override fun visitDotXArrayElement(node: DotXArrayElement) {
-        println("${node.dotXArray.dotX.left}.${node.dotXArray.dotX.right}[${node.dotXArray.index}]->${node.element}")
+        println("${node.dotXArray.dotX.left}.${node.dotXArray.dotX.right}[${node.dotXArray.index}].${node.element}")
     }
 
     override fun visitDotXSize(node: DotXSize) {
-        println("${node.dotX.left}.${node.dotX.right}.size()")
+        println("${node.dotX.left}.${node.dotX.right}#")
     }
 
     override fun visitDotXMap(node: DotXMap) {

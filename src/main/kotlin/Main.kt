@@ -9,13 +9,13 @@ fun main(){
 
 
 
-    val init=Init("$1", "d.csv")
+  /*  val init=Init("$1", "d.csv")
     val assign=Assign("x", DotX("a","b"))
     val end=Save("$2", "doc2")
 
-    val xql=XQL(init, listOf(assign), end)
+    val xql=XQL(init, listOf(assign), end)*/
 
     ast.accept(XQLPrinterVisitor())
-    println()
-    xql.accept(XQLPrinterVisitor())
+   // println()
+   // xql.accept(XQLPrinterVisitor())
 }

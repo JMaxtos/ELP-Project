@@ -143,7 +143,7 @@ fun XMLParser.AssignContext.toAst(): Assign {
 
 fun XMLParser.FunctionContext.toAst(): Function {
     return when {
-        dotX() != null && ARR() == null && STRING() == null -> {
+        dotX() != null && ARR() == null && STRING() == null && getChild(1)==null -> {
             val d = dotX().toAst()
             DotX(d.left, d.right)
         }
@@ -166,7 +166,7 @@ fun XMLParser.FunctionContext.toAst(): Function {
             DotXSize(d)
         }
 
-        dotX() != null && getChild(1).text == "->" -> {
+        dotX() != null && getChild(1).text == "->" && getChild(3)==null-> {
             val d = dotX().toAst()
             val mapValue = STRING().text.removeSurrounding("\"")
             DotXMap(d, mapValue)
