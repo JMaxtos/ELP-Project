@@ -9,7 +9,7 @@ data class XQL(val init: Init, val atrib: List<Assign>, val end: End){
             assign->builder.append("${assign.varname}=${funcToString(assign.func)}").append(System.lineSeparator())
         }
 
-        builder.append("end(").append("${end.doc}\",").append("${end.arg}\"").append(")").append(System.lineSeparator())
+        builder.append("end(").append("${end.doc},").append("${end.arg}").append(")").append(System.lineSeparator())
 
         return builder.toString()
     }
@@ -18,10 +18,10 @@ data class XQL(val init: Init, val atrib: List<Assign>, val end: End){
         return when(func){
             is DotX -> "${func.first}.${func.second}"
             is DotXArr -> "${func.dotX.first}.${func.dotX.second}[${func.index}]"
-            is DotXArrDot-> "${func.dotXArr.dotX.first}.${func.dotXArr.dotX.second}[${func.dotXArr.dotX.second}[${func.dotXArr.index}].${func.second}"
-            is  DotXSize->"${func.field.first}.${func.field.second}.size"
-            is DotXMap->"${func.dotX.first}.${func.dotX.second}.map(${func.map})"
-            is BiggField->"${func.map.dotX.first}.${func.map.dotX.second}.map(${func.map.map})"
+            is DotXArrDot-> "${func.dotXArr.dotX.first}.${func.dotXArr.dotX.second}${func.dotXArr.dotX.second}[${func.dotXArr.index}].${func.second}"
+            is DotXSize->"${func.field.first}.${func.field.second}#"
+            is DotXMap->"${func.dotX.first}.${func.dotX.second}->${func.map}"
+            is BiggField->"${func.map.dotX.first}.${func.map.dotX.second}->${func.map.map}++"
             else -> "unknown"
         }
     }
@@ -117,3 +117,9 @@ fun XMLParser.DotXContext.toAst(): DotX{
     val second=STRING(1).text
     return DotX(first,second)
 }
+
+fun XMLParser.XmlContext.toAst(): Line{
+    return foreach().toAst()
+}
+
+fun XMLParser.
