@@ -28,6 +28,18 @@ public class XMLBaseListener implements XMLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInstructions(XMLParser.InstructionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstructions(XMLParser.InstructionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInit(XMLParser.InitContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -88,6 +100,18 @@ public class XMLBaseListener implements XMLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterXmlfile(XMLParser.XmlfileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitXmlfile(XMLParser.XmlfileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLine(XMLParser.LineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -100,13 +124,13 @@ public class XMLBaseListener implements XMLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEnd(XMLParser.EndContext ctx) { }
+	@Override public void enterSave(XMLParser.SaveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEnd(XMLParser.EndContext ctx) { }
+	@Override public void exitSave(XMLParser.SaveContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

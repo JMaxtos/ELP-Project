@@ -16,6 +16,12 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitXql(XMLParser.XqlContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link XMLParser#instructions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstructions(XMLParser.InstructionsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link XMLParser#init}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -46,15 +52,21 @@ public interface XMLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitXml(XMLParser.XmlContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link XMLParser#xmlfile}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitXmlfile(XMLParser.XmlfileContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link XMLParser#line}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLine(XMLParser.LineContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XMLParser#end}.
+	 * Visit a parse tree produced by {@link XMLParser#save}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEnd(XMLParser.EndContext ctx);
+	T visitSave(XMLParser.SaveContext ctx);
 }

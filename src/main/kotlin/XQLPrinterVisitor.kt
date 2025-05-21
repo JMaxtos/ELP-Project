@@ -1,8 +1,6 @@
 class XQLPrinterVisitor: XQLVisitor {
     override fun visitXql(node: XQL) {
-        node.init.accept(this)
-        node.attrib.forEach { it.accept(this) }
-        node.save.accept(this)
+        node.instructions.forEach { it.accept(this) }
     }
 
     override fun visitInit(node: Init) {
@@ -44,8 +42,12 @@ class XQLPrinterVisitor: XQLVisitor {
 
     override fun visitXML(node: XML) {
         println("***")
-        node.lines.forEach { it.accept(this) }
+        node.file.accept(this)
         println("***")
+    }
+
+    override fun visitXMLFile(node: XMLFile) {
+        node.lines.forEach { it.accept(this) }
     }
 
     override fun visitTagBody(node: TagBody) {

@@ -17,6 +17,16 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitXql(XMLParser.XqlContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link XMLParser#instructions}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstructions(XMLParser.InstructionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XMLParser#instructions}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstructions(XMLParser.InstructionsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link XMLParser#init}.
 	 * @param ctx the parse tree
 	 */
@@ -67,6 +77,16 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitXml(XMLParser.XmlContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link XMLParser#xmlfile}.
+	 * @param ctx the parse tree
+	 */
+	void enterXmlfile(XMLParser.XmlfileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XMLParser#xmlfile}.
+	 * @param ctx the parse tree
+	 */
+	void exitXmlfile(XMLParser.XmlfileContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link XMLParser#line}.
 	 * @param ctx the parse tree
 	 */
@@ -77,13 +97,13 @@ public interface XMLListener extends ParseTreeListener {
 	 */
 	void exitLine(XMLParser.LineContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XMLParser#end}.
+	 * Enter a parse tree produced by {@link XMLParser#save}.
 	 * @param ctx the parse tree
 	 */
-	void enterEnd(XMLParser.EndContext ctx);
+	void enterSave(XMLParser.SaveContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link XMLParser#end}.
+	 * Exit a parse tree produced by {@link XMLParser#save}.
 	 * @param ctx the parse tree
 	 */
-	void exitEnd(XMLParser.EndContext ctx);
+	void exitSave(XMLParser.SaveContext ctx);
 }

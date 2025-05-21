@@ -4,25 +4,27 @@ interface Visitable {
     fun accept(visitor: XQLVisitor)
 }
 
-data class XQL(val init: Init, val attrib: List<Assign>, val save: Save) : Visitable {
+abstract class Instruction : Visitable
+
+data class XQL(val instructions: List<Instruction>) : Visitable {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitXql(this)
     }
 }
 
-data class Init(val argument: String, val doc: String) : Visitable {
+data class Init(val argument: Int, val doc: String) : Instruction() {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitInit(this)
     }
 }
 
-data class Save(val argument: String, val doc: String) : Visitable {
+data class Save(val argument: Int, val doc: String) : Instruction() {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitSave(this)
     }
 }
 
-data class Assign(val variable: String, val function: Function) : Visitable {
+data class Assign(val variable: String, val function: Function) : Instruction() {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitAssign(this)
     }
@@ -66,19 +68,50 @@ data class DotxMapIncrement(val dotXMap: DotXMap) : Function() {
     }
 }
 
-data class XML(val lines: List<Line>) : Function() {
+data class XML(val file: XMLFile) : Function() {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitXML(this)
     }
 }
 
+data class XMLFile(val lines: List<Line>) : Visitable {
+    override fun accept(visitor: XQLVisitor) {
+        visitor.visitXMLFile(this)
+    }
+}
 
-abstract class Line : Visitable
+abstract class Line : Visitable {
+    abstract fun getAttribute(attribute: String): String?
+    abstract fun getBodyTags(tag: String): List<Line>
+    abstract fun getTagName(): String
+    abstract fun getSize(): Int
+    abstract fun getTagValue(): String
+}
 
-abstract class Tags(val name: String, val attributes: Map<String, String>) : Line()
+abstract class Tags(val name: String, val attributes: Map<String, String>) : Line() {
+    override fun getTagName(): String {
+        return this.name
+    }
+
+    override fun getAttribute(attribute: String): String? {
+        return this.attributes[attribute]
+    }
+}
+
 class TagBody(name: String, attributes: Map<String, String>, val body: List<Line>) : Tags(name, attributes) {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitTagBody(this)
+    }
+
+    override fun getBodyTags(tag: String): List<Line> {
+        return this.body.filter{ it.getTagName() == tag }.toList()
+    }
+
+    override fun getSize(): Int {
+        return this.body.size
+    }
+    override fun getTagValue(): String {
+        throw IllegalStateException("..sdaa")
     }
 }
 
@@ -86,15 +119,57 @@ class TagValue(name: String, attributes: Map<String, String>, val value: String)
     override fun accept(visitor: XQLVisitor) {
         visitor.visitTagValue(this)
     }
+
+    override fun getBodyTags(tag: String): List<Line> {
+        throw IllegalStateException("Value tag doesn't have body")
+    }
+
+    override fun getSize(): Int {
+        throw IllegalStateException("Value tag doesn't have body")
+    }
+    override fun getTagValue(): String {
+        return value
+    }
 }
 
 class SelfCloseTag(name: String, attributes: Map<String, String>) : Tags(name, attributes) {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitSelfCloseTag(this)
     }
+
+    override fun getBodyTags(tag: String): List<Line> {
+        throw IllegalStateException("Self closing tag doesn't have body")
+    }
+
+    override fun getSize(): Int {
+        throw IllegalStateException("Value tag doesn't have body")
+    }
+    override fun getTagValue(): String {
+        throw IllegalStateException("..sdaa")
+    }
 }
 
-abstract class ForEach(val entity: String, val vector: String, val attributes: Map<String, String>) : Line()
+abstract class ForEach(val entity: String, val vector: String, val attributes: Map<String, String>) : Line() {
+    override fun getTagName(): String {
+        return entity
+    }
+
+    override fun getAttribute(attribute: String): String? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getBodyTags(tag: String): List<Line> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSize(): Int {
+        throw IllegalStateException("Value tag doesn't have body")
+    }
+    override fun getTagValue(): String {
+        throw IllegalStateException("..sdaa")
+    }
+}
+
 class ForEachTagBody(entity: String, vector: String, attributes: Map<String, String>, val body: List<Line>) :
     ForEach(entity, vector, attributes) {
     override fun accept(visitor: XQLVisitor) {
@@ -117,21 +192,28 @@ class ForEachSelfClosing(entity: String, vector: String, attributes: Map<String,
 }
 
 fun XMLParser.XqlContext.toAst(): XQL {
-    val init = this.init().toAst()
-    val assigns = this.assign().map { it.toAst() }
-    val end = this.end().toAst()
-    return XQL(init, assigns, end)
+    val instructions = this.instructions().map { it.toAst() }.toList()
+    return XQL(instructions)
+}
+
+fun XMLParser.InstructionsContext.toAst(): Instruction {
+    return when {
+        save() != null -> save().toAst()
+        init() != null -> init().toAst()
+        assign()!= null -> assign().toAst()
+        else -> throw IllegalArgumentException("Unknown Instruction: \"${this.text}\"")
+    }
 }
 
 fun XMLParser.InitContext.toAst(): Init {
-    val arg = this.ARGUMENTO().text
+    val arg = this.ARGUMENTO().text.removePrefix("$").toInt()
     val doc = this.STRING().text
     return Init(arg, doc)
 }
 
-fun XMLParser.EndContext.toAst(): Save {
+fun XMLParser.SaveContext.toAst(): Save {
     val doc = this.STRING().text
-    val arg = this.ARGUMENTO().text
+    val arg = this.ARGUMENTO().text.removePrefix("$").toInt()
     return Save(arg, doc)
 }
 
@@ -143,7 +225,7 @@ fun XMLParser.AssignContext.toAst(): Assign {
 
 fun XMLParser.FunctionContext.toAst(): Function {
     return when {
-        dotX() != null && ARR() == null && STRING() == null && getChild(1)==null -> {
+        dotX() != null && ARR() == null && STRING() == null && getChild(1) == null -> {
             val d = dotX().toAst()
             DotX(d.left, d.right)
         }
@@ -166,7 +248,7 @@ fun XMLParser.FunctionContext.toAst(): Function {
             DotXSize(d)
         }
 
-        dotX() != null && getChild(1).text == "->" && getChild(3)==null-> {
+        dotX() != null && getChild(1).text == "->" && getChild(3) == null -> {
             val d = dotX().toAst()
             val mapValue = STRING().text.removeSurrounding("\"")
             DotXMap(d, mapValue)
@@ -179,11 +261,15 @@ fun XMLParser.FunctionContext.toAst(): Function {
         }
 
         xml() != null -> {
-            XML(xml().toAst())
+            xml().toAst()
         }
 
-        else -> throw IllegalArgumentException("Padrão de função desconhecido:${this.text}")
+        else -> throw IllegalArgumentException("Unknown Function:${this.text}")
     }
+}
+
+fun XMLParser.XmlContext.toAst(): XML {
+    return XML(xmlfile().toAst())
 }
 
 fun XMLParser.DotXContext.toAst(): DotX {
@@ -192,8 +278,8 @@ fun XMLParser.DotXContext.toAst(): DotX {
     return DotX(first, second)
 }
 
-fun XMLParser.XmlContext.toAst(): List<Line> {
-    return line().map { parseLine(it) }.toList()
+fun XMLParser.XmlfileContext.toAst(): XMLFile {
+    return XMLFile(line().map { parseLine(it) }.toList())
 }
 
 fun parseLine(it: LineContext): Line {
@@ -240,7 +326,7 @@ fun parseLine(it: LineContext): Line {
         }
 
         else -> {
-            throw IllegalStateException("Estado inválido")
+            throw IllegalStateException("Invalid Tag")
         }
     }
 }

@@ -1,6 +1,7 @@
 grammar XML;
 
-xql: init assign+ end;
+xql: instructions+;
+instructions: init| assign| save;
 init: 'load' ARGUMENTO 'to' STRING;
 assign: STRING '=' function;
 dotX: STRING '.' STRING;
@@ -12,9 +13,10 @@ function: dotX
         | dotX '->' STRING '++'    // Incremento
         | xml                      // ficheiro XML
         ;
-xml: '***' line* '***';
+xml: '***' xmlfile '***';
+xmlfile: line+;
 line:(TAG (VALUE|line*)(ENDTAG))| SELFCLOSINGTAG | SELFCLOSINGTAG_FOREACH |TAGFOREACH (VALUE|line*) ENDTAG;
-end: 'save' STRING 'to' ARGUMENTO;
+save: 'save' STRING 'to' ARGUMENTO;
 
 FOREACH: STRING'$'STRING;
 ARGUMENTO: '$'[0-9]+;

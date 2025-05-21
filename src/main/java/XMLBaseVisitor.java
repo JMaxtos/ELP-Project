@@ -24,6 +24,13 @@ public class XMLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements XM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitInstructions(XMLParser.InstructionsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitInit(XMLParser.InitContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -59,6 +66,13 @@ public class XMLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements XM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitXmlfile(XMLParser.XmlfileContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitLine(XMLParser.LineContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -66,5 +80,5 @@ public class XMLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements XM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEnd(XMLParser.EndContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSave(XMLParser.SaveContext ctx) { return visitChildren(ctx); }
 }

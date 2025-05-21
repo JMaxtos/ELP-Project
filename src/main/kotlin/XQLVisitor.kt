@@ -21,6 +21,8 @@ interface XQLVisitor {
 
     fun visitXML(node: XML)
 
+    fun visitXMLFile(node: XMLFile)
+
     fun visitTagBody(node: TagBody)
 
     fun visitTagValue(node: TagValue)
