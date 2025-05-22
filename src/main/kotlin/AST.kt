@@ -105,7 +105,7 @@ class TagBody(name: String, attributes: Map<String, String>, var body: List<Line
     }
 
     override fun getBodyTags(tag: String): List<Line> {
-        return this.body.filter{ it.getTagName() == tag }.toList()
+        return this.body.filter { it.getTagName() == tag }.toList()
     }
 
     override fun getBodyTags(): List<Line> {
@@ -115,8 +115,9 @@ class TagBody(name: String, attributes: Map<String, String>, var body: List<Line
     override fun getSize(): Int {
         return this.body.size
     }
+
     override fun getTagValue(): String {
-        throw IllegalStateException("..sdaa")
+      throw UnsupportedOperationException("TagBody doesn't support value")
     }
 }
 
@@ -126,16 +127,17 @@ class TagValue(name: String, attributes: Map<String, String>, val value: String)
     }
 
     override fun getBodyTags(tag: String): List<Line> {
-        throw IllegalStateException("Value tag doesn't have body")
+        throw UnsupportedOperationException("TagValue doesn't support Body")
     }
 
     override fun getBodyTags(): List<Line> {
-        throw IllegalStateException("Value tag doesn't have body")
+        throw UnsupportedOperationException("TagValue doesn't support Body")
     }
 
     override fun getSize(): Int {
-        throw IllegalStateException("Value tag doesn't have body")
+        throw UnsupportedOperationException("TagValue doesn't support size")
     }
+
     override fun getTagValue(): String {
         return value
     }
@@ -147,66 +149,53 @@ class SelfCloseTag(name: String, attributes: Map<String, String>) : Tags(name, a
     }
 
     override fun getBodyTags(tag: String): List<Line> {
-        throw IllegalStateException("Self closing tag doesn't have body")
+        throw UnsupportedOperationException("SelfCloseTag doesn't support body")
     }
 
     override fun getBodyTags(): List<Line> {
-        throw IllegalStateException("Value tag doesn't have body")
+        throw UnsupportedOperationException("SelfCloseTag doesn't support body")
     }
 
     override fun getSize(): Int {
-        throw IllegalStateException("Value tag doesn't have body")
+        throw UnsupportedOperationException("SelfCloseTag tag doesn't support size")
     }
+
     override fun getTagValue(): String {
-        throw IllegalStateException("..sdaa")
+        throw UnsupportedOperationException("SelfCloseTag doesn't support value")
     }
 }
 
-abstract class ForEach(val entity: String, val vector: String, val attributes: Map<String, String>) : Line() {
+class ForEach(val entity: String, val vector: String, val attributes: Map<String, String>) : Line() {
+    override fun accept(visitor: XQLVisitor) {
+        visitor.visitForEach(this)
+    }
+
     override fun getTagName(): String {
         return entity
     }
 
     override fun getAttribute(attribute: String): String? {
-        TODO("Not yet implemented")
+       throw UnsupportedOperationException("ForEach doesn't support attribute")
     }
 
     override fun getBodyTags(tag: String): List<Line> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("ForEach doesn't support body")
     }
 
     override fun getBodyTags(): List<Line> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("ForEach doesn't support body")
     }
 
     override fun getSize(): Int {
-        throw IllegalStateException("Value tag doesn't have body")
+        throw UnsupportedOperationException("ForEach doesn't support size")
     }
+
     override fun getTagValue(): String {
-        throw IllegalStateException("..sdaa")
+        throw UnsupportedOperationException("ForEach doesn't support value")
     }
+
 }
 
-class ForEachTagBody(entity: String, vector: String, attributes: Map<String, String>, val body: List<Line>) :
-    ForEach(entity, vector, attributes) {
-    override fun accept(visitor: XQLVisitor) {
-        visitor.visitForEachTagBody(this)
-    }
-}
-
-class ForEachTagValue(entity: String, vector: String, attributes: Map<String, String>, val value: String) :
-    ForEach(entity, vector, attributes) {
-    override fun accept(visitor: XQLVisitor) {
-        visitor.visitForEachTagValue(this)
-    }
-}
-
-class ForEachSelfClosing(entity: String, vector: String, attributes: Map<String, String>) :
-    ForEach(entity, vector, attributes) {
-    override fun accept(visitor: XQLVisitor) {
-        visitor.visitForEachSelfClosing(this)
-    }
-}
 
 fun XMLParser.XqlContext.toAst(): XQL {
     val instructions = this.instructions().map { it.toAst() }.toList()
@@ -217,7 +206,7 @@ fun XMLParser.InstructionsContext.toAst(): Instruction {
     return when {
         save() != null -> save().toAst()
         init() != null -> init().toAst()
-        assign()!= null -> assign().toAst()
+        assign() != null -> assign().toAst()
         else -> throw IllegalArgumentException("Unknown Instruction: \"${this.text}\"")
     }
 }
@@ -324,22 +313,9 @@ fun parseLine(it: LineContext): Line {
             val entity = intermediate.first()
             val vector = intermediate.last()
 
-            ForEachSelfClosing(
+            ForEach(
                 entity, vector, selfClosingTagElements.second,
             )
-        }
-
-        it.TAGFOREACH() != null && (it.VALUE() != null || it.line() != null) && it.ENDTAG() != null -> {
-            val tagForEachElements = tagElements(it.TAGFOREACH().text)
-            val intermediate = tagForEachElements.first.split("$")
-            val entity = intermediate.first()
-            val vector = intermediate.last()
-
-            if (it.line() != null) {
-                ForEachTagBody(entity, vector, tagForEachElements.second, it.line().map { parseLine(it) }.toList())
-            } else {
-                ForEachTagValue(entity, vector, tagForEachElements.second, it.VALUE().text)
-            }
         }
 
         else -> {

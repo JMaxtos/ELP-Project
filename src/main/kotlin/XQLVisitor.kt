@@ -29,9 +29,5 @@ interface XQLVisitor {
 
     fun visitSelfCloseTag(node: SelfCloseTag)
 
-    fun visitForEachTagBody(node: ForEachTagBody)
-
-    fun visitForEachTagValue(node: ForEachTagValue)
-
-    fun visitForEachSelfClosing(node: ForEachSelfClosing)
+    fun visitForEach(node: ForEach)
 }

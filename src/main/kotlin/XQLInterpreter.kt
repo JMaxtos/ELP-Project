@@ -102,7 +102,7 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
 
         try {
             tmp = element.getTagValue()
-        } catch (e: IllegalStateException) {
+        } catch (e: UnsupportedOperationException) {
             tmp = element.getBodyTags()
         }
     }
@@ -212,25 +212,7 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
         tmp = node
     }
 
-    override fun visitForEachTagBody(node: ForEachTagBody) {
-        val iterable = variables[node.vector]
-
-        when (iterable) {
-            is List<*> -> {
-                (iterable as List<String>).map { }
-            }
-
-            else -> throw IllegalStateException("Cannot iterate")
-        }
-
-
-    }
-
-    override fun visitForEachTagValue(node: ForEachTagValue) {
-        TODO("Not yet implemented")
-    }
-
-    override fun visitForEachSelfClosing(node: ForEachSelfClosing) {
+    override fun visitForEach(node: ForEach) {
         val iterable = variables[node.vector]
 
         tmp = when (iterable) {

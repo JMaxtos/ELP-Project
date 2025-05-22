@@ -11,8 +11,9 @@ class XMLPrinter(val file: File): XQLVisitor {
 
     override fun visitTagBody(node: TagBody) {
         val currentIndent = " ".repeat(indent)
-        val attributes = node.attributes.map { "${it.key}=\"${it.value}\"" }.reduce { acc, s -> "$acc $s" }
-        this.file.appendText("${currentIndent}<${node.name} ${attributes}>\n")
+        var attributes = node.attributes.map { "${it.key}=\"${it.value}\"" }.fold("") { acc, s -> "$acc $s" }
+
+        this.file.appendText("${currentIndent}<${node.name}${attributes}>\n")
         this.indent += INDENT_AMOUNT
         node.body.forEach { it.accept(this) }
         this.indent -= INDENT_AMOUNT
@@ -21,14 +22,20 @@ class XMLPrinter(val file: File): XQLVisitor {
 
     override fun visitTagValue(node: TagValue) {
         val currentIndent = " ".repeat(indent)
-        val attributes = node.attributes.map { "${it.key}=\"${it.value}\"" }.reduce { acc, s -> "$acc $s" }
-        this.file.appendText("${currentIndent}<${node.name} ${attributes}>${node.value}</${node.name}>\n")
+        var attributes = node.attributes.map { "${it.key}=\"${it.value}\"" }.fold("") { acc, s -> "$acc $s" }
+
+        this.file.appendText("${currentIndent}<${node.name}${attributes}>${node.value}</${node.name}>\n")
     }
 
     override fun visitSelfCloseTag(node: SelfCloseTag) {
         val currentIndent = " ".repeat(indent)
-        val attributes = node.attributes.map { "${it.key}=\"${it.value}\"" }.reduce { acc, s -> "$acc $s" }
-        this.file.appendText("${currentIndent}<${node.name} ${attributes}/>\n")
+        var attributes = node.attributes.map { "${it.key}=\"${it.value}\"" }.fold("") { acc, s -> "$acc $s" }
+
+        if (attributes.length == 0) {
+            attributes = " $attributes"
+        }
+
+        this.file.appendText("${currentIndent}<${node.name}${attributes}/>\n")
     }
 
     override fun visitXql(node: XQL) {
@@ -79,15 +86,7 @@ class XMLPrinter(val file: File): XQLVisitor {
         throw IllegalStateException("Can't print as XML")
     }
 
-    override fun visitForEachTagBody(node: ForEachTagBody) {
-        throw IllegalStateException("Can't print as XML")
-    }
-
-    override fun visitForEachTagValue(node: ForEachTagValue) {
-        throw IllegalStateException("Can't print as XML")
-    }
-
-    override fun visitForEachSelfClosing(node: ForEachSelfClosing) {
+    override fun visitForEach(node: ForEach) {
         throw IllegalStateException("Can't print as XML")
     }
 }

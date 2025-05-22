@@ -10,7 +10,7 @@ class XQLPrinterVisitor: XQLVisitor {
         println("load ${node.argument} to ${node.doc}")
 
         println("*** FILE ***")
-        
+
         val lexer = XMLLexer(CharStreams.fromFileName("uc.xml"))
         val parser = XMLParser(CommonTokenStream(lexer))
 
@@ -76,17 +76,7 @@ class XQLPrinterVisitor: XQLVisitor {
         println("<${node.name} ${node.attributes} />")
     }
 
-    override fun visitForEachTagBody(node: ForEachTagBody) {
-        println("<${node.entity}$${node.vector} ${node.attributes}>")
-        node.body.forEach { it.accept(this) }
-        println("</${node.entity}>")
-    }
-
-    override fun visitForEachTagValue(node: ForEachTagValue) {
-        println("<${node.entity}$${node.vector} ${node.attributes}>${node.value}</${node.entity}>")
-    }
-
-    override fun visitForEachSelfClosing(node: ForEachSelfClosing) {
+    override fun visitForEach(node: ForEach) {
         println("<${node.entity}$${node.vector} ${node.attributes}/>")
     }
 }

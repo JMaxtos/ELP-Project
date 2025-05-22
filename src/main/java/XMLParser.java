@@ -17,9 +17,9 @@ public class XMLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		FOREACH=10, ARGUMENTO=11, STRING=12, ARR=13, VAR=14, TAG=15, TAGFOREACH=16, 
-		SELFCLOSINGTAG_FOREACH=17, SELFCLOSINGTAG=18, ENDTAG=19, ATTRIBUTE=20, 
-		TAGNAME=21, SPACE=22, VALUE=23, PARAMETER=24, NEWLINE=25;
+		FOREACH=10, ARGUMENTO=11, STRING=12, ARR=13, VAR=14, TAG=15, SELFCLOSINGTAG_FOREACH=16, 
+		SELFCLOSINGTAG=17, ENDTAG=18, ATTRIBUTE=19, TAGNAME=20, SPACE=21, VALUE=22, 
+		PARAMETER=23, NEWLINE=24;
 	public static final int
 		RULE_xql = 0, RULE_instructions = 1, RULE_init = 2, RULE_assign = 3, RULE_dotX = 4, 
 		RULE_function = 5, RULE_xml = 6, RULE_xmlfile = 7, RULE_line = 8, RULE_save = 9;
@@ -41,7 +41,7 @@ public class XMLParser extends Parser {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, "FOREACH", 
-			"ARGUMENTO", "STRING", "ARR", "VAR", "TAG", "TAGFOREACH", "SELFCLOSINGTAG_FOREACH", 
+			"ARGUMENTO", "STRING", "ARR", "VAR", "TAG", "SELFCLOSINGTAG_FOREACH", 
 			"SELFCLOSINGTAG", "ENDTAG", "ATTRIBUTE", "TAGNAME", "SPACE", "VALUE", 
 			"PARAMETER", "NEWLINE"
 		};
@@ -606,7 +606,6 @@ public class XMLParser extends Parser {
 		}
 		public TerminalNode SELFCLOSINGTAG() { return getToken(XMLParser.SELFCLOSINGTAG, 0); }
 		public TerminalNode SELFCLOSINGTAG_FOREACH() { return getToken(XMLParser.SELFCLOSINGTAG_FOREACH, 0); }
-		public TerminalNode TAGFOREACH() { return getToken(XMLParser.TAGFOREACH, 0); }
 		public LineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -631,7 +630,7 @@ public class XMLParser extends Parser {
 		enterRule(_localctx, 16, RULE_line);
 		int _la;
 		try {
-			setState(96);
+			setState(85);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case TAG:
@@ -650,7 +649,6 @@ public class XMLParser extends Parser {
 					}
 					break;
 				case TAG:
-				case TAGFOREACH:
 				case SELFCLOSINGTAG_FOREACH:
 				case SELFCLOSINGTAG:
 					{
@@ -667,7 +665,7 @@ public class XMLParser extends Parser {
 						setState(78); 
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-					} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 491520L) != 0) );
+					} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 229376L) != 0) );
 					}
 					break;
 				default:
@@ -692,49 +690,6 @@ public class XMLParser extends Parser {
 				{
 				setState(84);
 				match(SELFCLOSINGTAG_FOREACH);
-				}
-				break;
-			case TAGFOREACH:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(85);
-				match(TAGFOREACH);
-				setState(93);
-				_errHandler.sync(this);
-				switch (_input.LA(1)) {
-				case VALUE:
-					{
-					setState(86);
-					match(VALUE);
-					}
-					break;
-				case TAG:
-				case TAGFOREACH:
-				case SELFCLOSINGTAG_FOREACH:
-				case SELFCLOSINGTAG:
-				case ENDTAG:
-					{
-					setState(90);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-					while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 491520L) != 0)) {
-						{
-						{
-						setState(87);
-						line();
-						}
-						}
-						setState(92);
-						_errHandler.sync(this);
-						_la = _input.LA(1);
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				setState(95);
-				match(ENDTAG);
 				}
 				break;
 			default:
@@ -781,13 +736,13 @@ public class XMLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98);
+			setState(87);
 			match(T__8);
-			setState(99);
+			setState(88);
 			match(STRING);
-			setState(100);
+			setState(89);
 			match(T__1);
-			setState(101);
+			setState(90);
 			match(ARGUMENTO);
 			}
 		}
@@ -803,7 +758,7 @@ public class XMLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0019h\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0018]\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0001\u0000\u0004\u0000\u0016\b\u0000\u000b"+
@@ -816,14 +771,13 @@ public class XMLParser extends Parser {
 		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003"+
 		"\u0005B\b\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
 		"\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0004\bM\b\b\u000b\b\f\bN\u0003"+
-		"\bQ\b\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0005\bY\b\b\n"+
-		"\b\f\b\\\t\b\u0003\b^\b\b\u0001\b\u0003\ba\b\b\u0001\t\u0001\t\u0001\t"+
-		"\u0001\t\u0001\t\u0001\t\u0000\u0000\n\u0000\u0002\u0004\u0006\b\n\f\u000e"+
-		"\u0010\u0012\u0000\u0000m\u0000\u0015\u0001\u0000\u0000\u0000\u0002\u001c"+
-		"\u0001\u0000\u0000\u0000\u0004\u001e\u0001\u0000\u0000\u0000\u0006#\u0001"+
-		"\u0000\u0000\u0000\b\'\u0001\u0000\u0000\u0000\nA\u0001\u0000\u0000\u0000"+
-		"\fC\u0001\u0000\u0000\u0000\u000eG\u0001\u0000\u0000\u0000\u0010`\u0001"+
-		"\u0000\u0000\u0000\u0012b\u0001\u0000\u0000\u0000\u0014\u0016\u0003\u0002"+
+		"\bQ\b\b\u0001\b\u0001\b\u0001\b\u0003\bV\b\b\u0001\t\u0001\t\u0001\t\u0001"+
+		"\t\u0001\t\u0001\t\u0000\u0000\n\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010"+
+		"\u0012\u0000\u0000_\u0000\u0015\u0001\u0000\u0000\u0000\u0002\u001c\u0001"+
+		"\u0000\u0000\u0000\u0004\u001e\u0001\u0000\u0000\u0000\u0006#\u0001\u0000"+
+		"\u0000\u0000\b\'\u0001\u0000\u0000\u0000\nA\u0001\u0000\u0000\u0000\f"+
+		"C\u0001\u0000\u0000\u0000\u000eG\u0001\u0000\u0000\u0000\u0010U\u0001"+
+		"\u0000\u0000\u0000\u0012W\u0001\u0000\u0000\u0000\u0014\u0016\u0003\u0002"+
 		"\u0001\u0000\u0015\u0014\u0001\u0000\u0000\u0000\u0016\u0017\u0001\u0000"+
 		"\u0000\u0000\u0017\u0015\u0001\u0000\u0000\u0000\u0017\u0018\u0001\u0000"+
 		"\u0000\u0000\u0018\u0001\u0001\u0000\u0000\u0000\u0019\u001d\u0003\u0004"+
@@ -847,20 +801,15 @@ public class XMLParser extends Parser {
 		"A;\u0001\u0000\u0000\u0000A@\u0001\u0000\u0000\u0000B\u000b\u0001\u0000"+
 		"\u0000\u0000CD\u0005\b\u0000\u0000DE\u0003\u000e\u0007\u0000EF\u0005\b"+
 		"\u0000\u0000F\r\u0001\u0000\u0000\u0000GH\u0003\u0010\b\u0000H\u000f\u0001"+
-		"\u0000\u0000\u0000IP\u0005\u000f\u0000\u0000JQ\u0005\u0017\u0000\u0000"+
+		"\u0000\u0000\u0000IP\u0005\u000f\u0000\u0000JQ\u0005\u0016\u0000\u0000"+
 		"KM\u0003\u0010\b\u0000LK\u0001\u0000\u0000\u0000MN\u0001\u0000\u0000\u0000"+
 		"NL\u0001\u0000\u0000\u0000NO\u0001\u0000\u0000\u0000OQ\u0001\u0000\u0000"+
 		"\u0000PJ\u0001\u0000\u0000\u0000PL\u0001\u0000\u0000\u0000QR\u0001\u0000"+
-		"\u0000\u0000Ra\u0005\u0013\u0000\u0000Sa\u0005\u0012\u0000\u0000Ta\u0005"+
-		"\u0011\u0000\u0000U]\u0005\u0010\u0000\u0000V^\u0005\u0017\u0000\u0000"+
-		"WY\u0003\u0010\b\u0000XW\u0001\u0000\u0000\u0000Y\\\u0001\u0000\u0000"+
-		"\u0000ZX\u0001\u0000\u0000\u0000Z[\u0001\u0000\u0000\u0000[^\u0001\u0000"+
-		"\u0000\u0000\\Z\u0001\u0000\u0000\u0000]V\u0001\u0000\u0000\u0000]Z\u0001"+
-		"\u0000\u0000\u0000^_\u0001\u0000\u0000\u0000_a\u0005\u0013\u0000\u0000"+
-		"`I\u0001\u0000\u0000\u0000`S\u0001\u0000\u0000\u0000`T\u0001\u0000\u0000"+
-		"\u0000`U\u0001\u0000\u0000\u0000a\u0011\u0001\u0000\u0000\u0000bc\u0005"+
-		"\t\u0000\u0000cd\u0005\f\u0000\u0000de\u0005\u0002\u0000\u0000ef\u0005"+
-		"\u000b\u0000\u0000f\u0013\u0001\u0000\u0000\u0000\b\u0017\u001cANPZ]`";
+		"\u0000\u0000RV\u0005\u0012\u0000\u0000SV\u0005\u0011\u0000\u0000TV\u0005"+
+		"\u0010\u0000\u0000UI\u0001\u0000\u0000\u0000US\u0001\u0000\u0000\u0000"+
+		"UT\u0001\u0000\u0000\u0000V\u0011\u0001\u0000\u0000\u0000WX\u0005\t\u0000"+
+		"\u0000XY\u0005\f\u0000\u0000YZ\u0005\u0002\u0000\u0000Z[\u0005\u000b\u0000"+
+		"\u0000[\u0013\u0001\u0000\u0000\u0000\u0006\u0017\u001cANPU";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
