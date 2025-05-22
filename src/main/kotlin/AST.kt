@@ -74,7 +74,7 @@ data class XML(val file: XMLFile) : Function() {
     }
 }
 
-data class XMLFile(val lines: List<Line>) : Visitable {
+data class XMLFile(val root: Line) : Visitable {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitXMLFile(this)
     }
@@ -86,9 +86,10 @@ abstract class Line : Visitable {
     abstract fun getTagName(): String
     abstract fun getSize(): Int
     abstract fun getTagValue(): String
+    abstract fun getBodyTags(): List<Line>
 }
 
-abstract class Tags(val name: String, val attributes: Map<String, String>) : Line() {
+abstract class Tags(val name: String, var attributes: Map<String, String>) : Line() {
     override fun getTagName(): String {
         return this.name
     }
@@ -98,13 +99,17 @@ abstract class Tags(val name: String, val attributes: Map<String, String>) : Lin
     }
 }
 
-class TagBody(name: String, attributes: Map<String, String>, val body: List<Line>) : Tags(name, attributes) {
+class TagBody(name: String, attributes: Map<String, String>, var body: List<Line>) : Tags(name, attributes) {
     override fun accept(visitor: XQLVisitor) {
         visitor.visitTagBody(this)
     }
 
     override fun getBodyTags(tag: String): List<Line> {
         return this.body.filter{ it.getTagName() == tag }.toList()
+    }
+
+    override fun getBodyTags(): List<Line> {
+        return this.body
     }
 
     override fun getSize(): Int {
@@ -121,6 +126,10 @@ class TagValue(name: String, attributes: Map<String, String>, val value: String)
     }
 
     override fun getBodyTags(tag: String): List<Line> {
+        throw IllegalStateException("Value tag doesn't have body")
+    }
+
+    override fun getBodyTags(): List<Line> {
         throw IllegalStateException("Value tag doesn't have body")
     }
 
@@ -141,6 +150,10 @@ class SelfCloseTag(name: String, attributes: Map<String, String>) : Tags(name, a
         throw IllegalStateException("Self closing tag doesn't have body")
     }
 
+    override fun getBodyTags(): List<Line> {
+        throw IllegalStateException("Value tag doesn't have body")
+    }
+
     override fun getSize(): Int {
         throw IllegalStateException("Value tag doesn't have body")
     }
@@ -159,6 +172,10 @@ abstract class ForEach(val entity: String, val vector: String, val attributes: M
     }
 
     override fun getBodyTags(tag: String): List<Line> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getBodyTags(): List<Line> {
         TODO("Not yet implemented")
     }
 
@@ -279,7 +296,7 @@ fun XMLParser.DotXContext.toAst(): DotX {
 }
 
 fun XMLParser.XmlfileContext.toAst(): XMLFile {
-    return XMLFile(line().map { parseLine(it) }.toList())
+    return XMLFile(parseLine(line()))
 }
 
 fun parseLine(it: LineContext): Line {
@@ -287,7 +304,7 @@ fun parseLine(it: LineContext): Line {
         it.TAG() != null && (it.VALUE() != null || it.line() != null) && it.ENDTAG() != null -> {
             val tagELEMENTS = tagElements(it.TAG().text)
 
-            if (it.line() != null) {
+            if (it.line() != null && it.line().size != 0) {
                 TagBody(tagELEMENTS.first, tagELEMENTS.second, it.line().map { parseLine(it) }.toList())
             } else {
                 TagValue(tagELEMENTS.first, tagELEMENTS.second, it.VALUE().text)

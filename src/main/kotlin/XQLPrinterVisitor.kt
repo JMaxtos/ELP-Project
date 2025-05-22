@@ -1,3 +1,6 @@
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
+
 class XQLPrinterVisitor: XQLVisitor {
     override fun visitXql(node: XQL) {
         node.instructions.forEach { it.accept(this) }
@@ -5,6 +8,15 @@ class XQLPrinterVisitor: XQLVisitor {
 
     override fun visitInit(node: Init) {
         println("load ${node.argument} to ${node.doc}")
+
+        println("*** FILE ***")
+        
+        val lexer = XMLLexer(CharStreams.fromFileName("uc.xml"))
+        val parser = XMLParser(CommonTokenStream(lexer))
+
+        parser.xmlfile().toAst().accept(this)
+
+        println("*** END FILE ***")
     }
 
     override fun visitSave(node: Save){
@@ -47,7 +59,7 @@ class XQLPrinterVisitor: XQLVisitor {
     }
 
     override fun visitXMLFile(node: XMLFile) {
-        node.lines.forEach { it.accept(this) }
+        node.root.accept(this)
     }
 
     override fun visitTagBody(node: TagBody) {

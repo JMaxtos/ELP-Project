@@ -3,6 +3,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
 
 class XQLInterpreter(val args: List<String>) : XQLVisitor {
+    // Used to track variable values
     private val variables = mutableMapOf<String, Any>()
 
     // Used for return values between methods
@@ -16,18 +17,18 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
         // Ler o argumento node.argument
         // Ler o ficheiro do argumento
         // Copiar conteudo do ficheiro passando pelo parser de XMLFile para o variables[node.doc]
-        if (node.argument >= this.args.size || node.argument < 0) {
+        if (node.argument > this.args.size || node.argument <= 0) {
             throw IllegalStateException("Invalid argument ${node.argument}")
         }
 
+        //val lexer = XMLLexer(CharStreams.fromFileName("uc.xml"))
         val lexer = XMLLexer(CharStreams.fromFileName(this.args[node.argument - 1]))
         val parser = XMLParser(CommonTokenStream(lexer))
 
-        if (parser.xmlfile() == null) {
-            throw IllegalStateException("Illegal XML format")
-        }
+        val file = parser.xmlfile() ?: throw IllegalStateException("Illegal XML format")
 
-        parser.xmlfile().toAst()
+        file.toAst().accept(this)
+
         variables[node.doc] = tmp!!
 
         tmp = null
@@ -37,11 +38,17 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
         // Ler argumento node.argument
         // Abrir ficheiro do argumento
         // Escrever conteudo do node.doc no ficheiro
-        if (node.argument >= this.args.size || node.argument < 0) {
+        if (node.argument > this.args.size || node.argument <= 0) {
             throw IllegalStateException("Invalid argument ${node.argument}")
         }
 
-        File(this.args[node.argument - 1]).writeText(variables[node.doc].toString())
+        val document = variables[node.doc]
+
+        if (document !is Line) {
+            throw IllegalStateException("Document is not a XML output")
+        }
+
+        document.accept(XMLPrinter(File(this.args[node.argument - 1])))
     }
 
     override fun visitAssign(node: Assign) {
@@ -56,13 +63,18 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
     }
 
     override fun visitDotX(node: DotX) {
-        //tags[name].method
-        //setid = doc.id -> <uc-set id="demo">
         tmp = when (variables[node.left]) {
-            is Line -> (variables[node.left]!! as Line).getAttribute(node.right) ?: throw IllegalStateException("Attribute doesn't exist")
+            is Line -> {
+                val line = variables[node.left] as Line
+                val attribute = line.getAttribute(node.right)
+
+                attribute ?: line.getBodyTags(node.right)
+            }
+
             else -> throw IllegalStateException("Argument doesn't support accessing parameter")
         }
     }
+
 
     override fun visitDotXArray(node: DotXArray) {
         val tags = when (variables[node.dotX.left]) {
@@ -80,12 +92,19 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
     }
 
     override fun visitDotXArrayElement(node: DotXArrayElement) {
-     node.dotXArray.accept(this)
+        node.dotXArray.accept(this)
         val elementValue = (tmp as Line).getBodyTags(node.element)
-        if(elementValue.size != 1){
+        if (elementValue.size != 1) {
             throw IllegalArgumentException("dsadasda")
         }
-        tmp = elementValue[0].getTagValue()
+
+        val element = elementValue[0]
+
+        try {
+            tmp = element.getTagValue()
+        } catch (e: IllegalStateException) {
+            tmp = element.getBodyTags()
+        }
     }
 
     override fun visitDotXSize(node: DotXSize) {
@@ -111,41 +130,100 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
             else -> throw IllegalStateException("Argument doesn't support accessing parameter")
         }
 
-        tmp = tags.sumOf    {
-                val inner = it.getBodyTags(node.dotXMap.map)
-                if (inner.size != 1) {
-                    throw IllegalStateException("")
-                }
-
-                inner[0].getTagValue().toInt()
+        tmp = tags.sumOf {
+            val inner = it.getBodyTags(node.dotXMap.map)
+            if (inner.size != 1) {
+                throw IllegalStateException("")
             }
+
+            inner[0].getTagValue().toInt()
+        }
 
     }
 
     override fun visitXML(node: XML) {
-        println("${this.tmp}")
-        println("${this.variables}")
-        TODO("")
+        node.file.accept(this)
     }
 
     override fun visitXMLFile(node: XMLFile) {
-        TODO("Not yet implemented")
+        node.root.accept(this)
     }
 
     override fun visitTagBody(node: TagBody) {
-        TODO("Not yet implemented")
+        node.body = node.body.flatMap {
+            it.accept(this)
+
+            val line = tmp!!
+            tmp = null
+
+            val result = when (line) {
+                is Line -> listOf(line)
+                is List<*> -> line
+                else -> line
+            }
+
+            result as List<Line>
+        }.toList() as List<*> as List<Line>
+
+        node.attributes = node.attributes.mapValues {
+            if (it.value.startsWith("$")) {
+                when (val value = variables[it.value.substring(1)]) {
+                    is String -> value
+                    is Int -> value.toString()
+                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
+                }
+            } else {
+                it.value
+            }
+        }
+
+        tmp = node
     }
 
     override fun visitTagValue(node: TagValue) {
-        TODO("Not yet implemented")
+        node.attributes = node.attributes.mapValues {
+            if (it.value.startsWith("$")) {
+                when (val value = variables[it.value.substring(1)]) {
+                    is String -> value
+                    is Int -> value.toString()
+                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
+                }
+            } else {
+                it.value
+            }
+        }
+
+        tmp = node
     }
 
     override fun visitSelfCloseTag(node: SelfCloseTag) {
-        TODO("Not yet implemented")
+        node.attributes = node.attributes.mapValues {
+            if (it.value.startsWith("$")) {
+                when (val value = variables[it.value.substring(1)]) {
+                    is String -> value
+                    is Int -> value.toString()
+                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
+                }
+            } else {
+                it.value
+            }
+        }
+
+        tmp = node
     }
 
     override fun visitForEachTagBody(node: ForEachTagBody) {
-        TODO("Not yet implemented")
+        val iterable = variables[node.vector]
+
+        when (iterable) {
+            is List<*> -> {
+                (iterable as List<String>).map { }
+            }
+
+            else -> throw IllegalStateException("Cannot iterate")
+        }
+
+
     }
 
     override fun visitForEachTagValue(node: ForEachTagValue) {
@@ -153,6 +231,30 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
     }
 
     override fun visitForEachSelfClosing(node: ForEachSelfClosing) {
-        TODO("Not yet implemented")
+        val iterable = variables[node.vector]
+
+        tmp = when (iterable) {
+            is List<*> -> {
+                val result = mutableListOf<Line>()
+                for (element in (iterable as List<Line>)) {
+                    val attributes = node.attributes.mapValues {
+                        if (it.value.startsWith("$")) {
+                            val value = element.getAttribute(it.value.substring(1))
+
+                            value!!
+                        } else {
+                            it.value
+                        }
+                    }
+
+                    result.add(SelfCloseTag(node.entity, attributes))
+                }
+
+                result
+            }
+
+            else -> throw IllegalStateException("Cannot iterate")
+        }
+
     }
 }

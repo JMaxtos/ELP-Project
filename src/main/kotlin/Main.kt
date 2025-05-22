@@ -7,7 +7,7 @@ fun main(args: Array<String>){
     val parserTree=parser.xql()
     val ast=parserTree.toAst()
 
-    val args = listOf("uc.xml", "demo.xql")
+    val args = listOf("uc.xml", "output.xql")
 
   /*  val init=Init("$1", "d.csv")
     val assign=Assign("x", DotX("a","b"))

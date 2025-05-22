@@ -14,8 +14,8 @@ function: dotX
         | xml                      // ficheiro XML
         ;
 xml: '***' xmlfile '***';
-xmlfile: line+;
-line:(TAG (VALUE|line*)(ENDTAG))| SELFCLOSINGTAG | SELFCLOSINGTAG_FOREACH |TAGFOREACH (VALUE|line*) ENDTAG;
+xmlfile: line;
+line:(TAG (VALUE|line+)(ENDTAG))| SELFCLOSINGTAG | SELFCLOSINGTAG_FOREACH |TAGFOREACH (VALUE|line*) ENDTAG;
 save: 'save' STRING 'to' ARGUMENTO;
 
 FOREACH: STRING'$'STRING;
@@ -28,7 +28,7 @@ TAGFOREACH: '<' (FOREACH (ATTRIBUTE)*)'>' ;
 SELFCLOSINGTAG_FOREACH: '<' FOREACH (ATTRIBUTE)*'/''>';
 SELFCLOSINGTAG: '<' TAGNAME (ATTRIBUTE)*'/''>';
 ENDTAG: '<''/'TAGNAME'>';
-ATTRIBUTE:' '  [a-zA-Z_:][a-zA-Z0-9_.:-]* '='PARAMETER | VAR;
+ATTRIBUTE: ' ' [a-zA-Z_:][a-zA-Z0-9_.:-]* '=' PARAMETER | VAR;
 TAGNAME:[a-z]+(('-')?[a-z]+)*;
 SPACE: (' ')+->skip;
 VALUE:[0-9]+;
