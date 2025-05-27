@@ -14,14 +14,10 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
     }
 
     override fun visitInit(node: Init) {
-        // Ler o argumento node.argument
-        // Ler o ficheiro do argumento
-        // Copiar conteudo do ficheiro passando pelo parser de XMLFile para o variables[node.doc]
         if (node.argument > this.args.size || node.argument <= 0) {
             throw IllegalStateException("Invalid argument ${node.argument}")
         }
 
-        //val lexer = XMLLexer(CharStreams.fromFileName("uc.xml"))
         val lexer = XMLLexer(CharStreams.fromFileName(this.args[node.argument - 1]))
         val parser = XMLParser(CommonTokenStream(lexer))
 
@@ -35,9 +31,6 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
     }
 
     override fun visitSave(node: Save) {
-        // Ler argumento node.argument
-        // Abrir ficheiro do argumento
-        // Escrever conteudo do node.doc no ficheiro
         if (node.argument > this.args.size || node.argument <= 0) {
             throw IllegalStateException("Invalid argument ${node.argument}")
         }
@@ -52,9 +45,6 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
     }
 
     override fun visitAssign(node: Assign) {
-        // Visitar o lado direito do assignment
-        // Guardar o valor na variável
-
         node.function.accept(this)
 
         variables[node.variable] = tmp!!
