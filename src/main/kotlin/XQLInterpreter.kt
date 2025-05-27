@@ -155,50 +155,18 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
             result as List<Line>
         }.toList() as List<*> as List<Line>
 
-        node.attributes = node.attributes.mapValues {
-            if (it.value.startsWith("$")) {
-                when (val value = variables[it.value.substring(1)]) {
-                    is String -> value
-                    is Int -> value.toString()
-                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
-                }
-            } else {
-                it.value
-            }
-        }
+        node.attributes = mapAttributes(node.attributes)
 
         tmp = node
     }
 
     override fun visitTagValue(node: TagValue) {
-        node.attributes = node.attributes.mapValues {
-            if (it.value.startsWith("$")) {
-                when (val value = variables[it.value.substring(1)]) {
-                    is String -> value
-                    is Int -> value.toString()
-                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
-                }
-            } else {
-                it.value
-            }
-        }
-
+        node.attributes = mapAttributes(node.attributes)
         tmp = node
     }
 
     override fun visitSelfCloseTag(node: SelfCloseTag) {
-        node.attributes = node.attributes.mapValues {
-            if (it.value.startsWith("$")) {
-                when (val value = variables[it.value.substring(1)]) {
-                    is String -> value
-                    is Int -> value.toString()
-                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
-                }
-            } else {
-                it.value
-            }
-        }
-
+        node.attributes = mapAttributes(node.attributes)
         tmp = node
     }
 
@@ -228,5 +196,19 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
             else -> throw IllegalStateException("Cannot iterate")
         }
 
+    }
+
+    private fun mapAttributes(attributes: Map<String,String>): Map<String,String>{
+        return attributes.mapValues {
+            if (it.value.startsWith("$")) {
+                when (val value = variables[it.value.substring(1)]) {
+                    is String -> value
+                    is Int -> value.toString()
+                    else -> throw IllegalStateException("Attribute cannot be a XML tag")
+                }
+            } else {
+                it.value
+            }
+        }
     }
 }
