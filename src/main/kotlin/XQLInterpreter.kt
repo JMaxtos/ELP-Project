@@ -3,10 +3,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
 
 class XQLInterpreter(val args: List<String>) : XQLVisitor {
-    // Used to track variable values
     private val variables = mutableMapOf<String, Any>()
-
-    // Used for return values between methods
     private var tmp: Any? = null
 
     override fun visitXql(node: XQL) {
@@ -57,7 +54,6 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
             is Line -> {
                 val line = variables[node.left] as Line
                 val attribute = line.getAttribute(node.right)
-
                 attribute ?: line.getBodyTags(node.right)
             }
 
@@ -85,9 +81,8 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
         node.dotXArray.accept(this)
         val elementValue = (tmp as Line).getBodyTags(node.element)
         if (elementValue.size != 1) {
-            throw IllegalArgumentException("dsadasda")
+            throw IllegalArgumentException("The Element must contain a Value")
         }
-
         val element = elementValue[0]
 
         try {
@@ -96,7 +91,6 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
             tmp = element.getBodyTags()
         }
     }
-
     override fun visitDotXSize(node: DotXSize) {
         val tags = when (variables[node.dotX.left]) {
             is Line -> (variables[node.dotX.left]!! as Line).getBodyTags(node.dotX.right)
@@ -197,8 +191,7 @@ class XQLInterpreter(val args: List<String>) : XQLVisitor {
         }
 
     }
-
-    private fun mapAttributes(attributes: Map<String,String>): Map<String,String>{
+    private fun mapAttributes(attributes: Map<String, String>): Map<String, String> {
         return attributes.mapValues {
             if (it.value.startsWith("$")) {
                 when (val value = variables[it.value.substring(1)]) {
